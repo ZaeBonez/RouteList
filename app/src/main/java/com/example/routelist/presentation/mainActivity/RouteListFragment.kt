@@ -91,7 +91,6 @@ class RouteListFragment : Fragment() {
         adapter = RouteListAdapter(router)
         binding.rvMain.adapter = adapter
 
-
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (adapter.getItemViewType(position)) {

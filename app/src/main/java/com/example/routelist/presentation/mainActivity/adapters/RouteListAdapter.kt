@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routelist.databinding.ItemHeaderBinding
 import com.example.routelist.databinding.ItemRouteBinding
+import com.example.routelist.databinding.ItemRouteTableHeaderBinding
 import com.example.routelist.databinding.ItemRoutesHeaderBinding
 import com.example.routelist.databinding.ItemStatisticCardBinding
 import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
@@ -20,6 +21,7 @@ class RouteListAdapter(
         internal const val CALENDAR_HEADER = 0
         internal const val CARD_INFO = 1
         internal const val ROUTES_HEADER = 2
+        internal const val ROUTES_TABLE_HEADER = 4
         internal const val ROUTE_LIST = 3
     }
 
@@ -28,6 +30,7 @@ class RouteListAdapter(
         RouteListItem.RoutesHeader -> ROUTES_HEADER
         is RouteListItem.Card -> CARD_INFO
         is RouteListItem.RouteItem -> ROUTE_LIST
+        RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
     }
 
     override fun onCreateViewHolder(
@@ -54,6 +57,10 @@ class RouteListAdapter(
                 ItemRouteBinding.inflate(inflater, parent, false)
             )
 
+            ROUTES_TABLE_HEADER -> RoutesTableHeaderViewHolder(
+                ItemRouteTableHeaderBinding.inflate(inflater, parent, false)
+            )
+
             else -> throw IllegalStateException("Unknown viewType")
         }
     }
@@ -68,6 +75,7 @@ class RouteListAdapter(
             is RouteListItem.Card -> (holder as CardViewHolder).bind(item)
             is RouteListItem.RoutesHeader -> (holder as RoutesHeaderViewHolder).bind()
             is RouteListItem.RouteItem -> (holder as RouteViewHolder).bind(item)
+            is RouteListItem.RoutesTableHeaders -> (holder as RoutesTableHeaderViewHolder).bind(item)
         }
     }
 

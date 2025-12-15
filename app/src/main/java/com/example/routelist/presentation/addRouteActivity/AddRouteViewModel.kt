@@ -5,19 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.InsertRouteUseCase
 import com.example.routelist.domain.RouteListInfo
+import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChain
+import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChainModel
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.RouteNumber
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
 class AddRouteViewModel @Inject constructor(
-    private val insertRouteUseCase: InsertRouteUseCase
+    private val insertRouteUseCase: InsertRouteUseCase,
+    private val addRouteChain: AddRouteChain,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(AddRouteState())
@@ -130,14 +131,6 @@ class AddRouteViewModel @Inject constructor(
         }
     }
 
-    private fun isValidDate(s: String) = parse(s) != null
-
-    private fun parse(s: String) = try {
-        LocalDateTime.parse(s, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
-    } catch (e: Exception) {
-        null
-    }
-
     fun getStateFlow(): SharedFlow<AddRouteState> {
         return state
     }
@@ -149,39 +142,24 @@ class AddRouteViewModel @Inject constructor(
     fun validate(): Boolean {
         val s = state.value
 
-        when {
-            s.routeNumber.number.isNullOrBlank() ->
-                return error("Введите номер маршрута")
-
-            s.dateRow.startDate.isNullOrBlank() || !isValidDate(s.dateRow.startDate) ->
-                return error("Некорректная дата отправления")
-
-            s.dateRow.endDate.isNullOrBlank() || !isValidDate(s.dateRow.endDate) ->
-                return error("Некорректная дата прибытия")
-
-            s.trainInfo.trainNumber.isNullOrBlank() ->
-                return error("Введите номер поезда")
-
-            s.trainInfo.carriageCount.isNullOrBlank() ->
-                return error("Введите количество вагонов")
-
-            s.trainInfo.startStation.isNullOrBlank() ->
-                return error("Введите станцию отправления")
-
-            s.trainInfo.endStation.isNullOrBlank() ->
-                return error("Введите станцию назначения")
-        }
+        val error = addRouteChain.validate(
+            AddRouteChainModel(
+                number = s.routeNumber.number,
+                startDate = s.dateRow.startDate,
+                endDate = s.dateRow.endDate,
+                trainNumber = s.trainInfo.trainNumber,
+                carriageCount = s.trainInfo.carriageCount,
+                startStation = s.trainInfo.startStation,
+                endStation = s.trainInfo.endStation,
+            )
+        )
 
 
-        return true
+
+        return error?.let {
+            viewModelScope.launch {
+                errorFlow.emit(it)
+            }
+        } == null
     }
-
-    private fun error(message: String): Boolean {
-        viewModelScope.launch {
-            errorFlow.emit(message)
-        }
-
-        return false
-    }
-
 }

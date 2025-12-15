@@ -23,7 +23,7 @@ class MonthYearPickerRouter(
 
         binding.npMonth.minValue = 1
         binding.npMonth.maxValue = 12
-        binding.npMonth.value = initialMonth
+        binding.npMonth.value = initialMonth + 1
 
         binding.npYear.minValue = 2000
         binding.npYear.maxValue = 2100
@@ -33,7 +33,8 @@ class MonthYearPickerRouter(
             .setTitle("Выберите месяц и год")
             .setView(binding.root)
             .setPositiveButton("OK") { _, _ ->
-                val month = binding.npMonth.value
+
+                val month = binding.npMonth.value - 1
                 val year = binding.npYear.value
 
                 val monthName = getMonthName(month)
