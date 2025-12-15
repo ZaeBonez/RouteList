@@ -154,10 +154,12 @@ class AddRouteViewModel @Inject constructor(
             )
         )
 
+
+
         return error?.let {
             viewModelScope.launch {
                 errorFlow.emit(it)
             }
-        } != null
+        } == null
     }
 }

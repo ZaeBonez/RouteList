@@ -168,8 +168,6 @@ class AddRouteFragment : Fragment() {
 
         }
     }
-
-
 }
 
 

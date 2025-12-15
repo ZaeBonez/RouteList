@@ -82,6 +82,5 @@ class StartDateChain(override val newChain: AddRouteChain?) : DateChain() {
 }
 
 class EndDateChain(override val newChain: AddRouteChain?) : DateChain() {
-
     override fun getDate(model: AddRouteChainModel): String? = model.endDate
 }

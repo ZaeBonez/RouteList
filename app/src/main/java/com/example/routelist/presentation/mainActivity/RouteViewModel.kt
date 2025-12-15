@@ -58,6 +58,9 @@ class RouteViewModel @Inject constructor(
         // Заголовок списка
         ui.add(RouteListItem.RoutesHeader)
 
+        // Заголовок Таблицы
+        ui.add(RouteListItem.RoutesTableHeaders)
+
         // Маршруты
         routeList.forEachIndexed { index, route ->
             val pos = when (index) {
