@@ -59,13 +59,13 @@ class RouteViewModel @Inject constructor(
         ui.add(RouteListItem.RoutesHeader)
 
         // Заголовок Таблицы
-        ui.add(RouteListItem.RoutesTableHeaders)
+        ui.add(RouteListItem.RoutesTableHeaders(routePosition = RoutePosition.First))
 
         // Маршруты
         routeList.forEachIndexed { index, route ->
-            val pos = when (index) {
-                0 -> RoutePosition.First
-                routeList.lastIndex -> RoutePosition.Last
+            val pos = when  {
+                routeList.size == 1 -> RoutePosition.Last
+                index == routeList.lastIndex -> RoutePosition.Last
                 else -> RoutePosition.Middle
             }
             ui.add(

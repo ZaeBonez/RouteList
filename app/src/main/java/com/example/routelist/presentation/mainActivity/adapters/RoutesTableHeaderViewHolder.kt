@@ -13,5 +13,6 @@ class RoutesTableHeaderViewHolder(
         binding.headerStart.text = "Явка"
         binding.headerEnd.text = "Окончание"
         binding.headerHours.text = "Часы"
+        binding.cardViewMaterial.shapeAppearanceModel = item.routePosition.shapeAppearanceModel
     }
 }

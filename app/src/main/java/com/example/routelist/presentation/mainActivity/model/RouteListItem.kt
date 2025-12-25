@@ -10,7 +10,9 @@ sealed class RouteListItem {
 
     data object RoutesHeader : RouteListItem()
 
-    data object RoutesTableHeaders : RouteListItem()
+    data class RoutesTableHeaders(
+        val routePosition: RoutePosition
+    ) : RouteListItem()
 
 
     data class Card(
