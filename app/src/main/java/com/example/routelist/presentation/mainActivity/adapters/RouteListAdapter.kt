@@ -30,7 +30,7 @@ class RouteListAdapter(
         RouteListItem.RoutesHeader -> ROUTES_HEADER
         is RouteListItem.Card -> CARD_INFO
         is RouteListItem.RouteItem -> ROUTE_LIST
-        RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
+        is RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
     }
 
     override fun onCreateViewHolder(
