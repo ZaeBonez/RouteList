@@ -14,7 +14,8 @@ import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRout
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
 
 class RouteListAdapter(
-    private val router: MonthYearPickerRouter
+    private val router: MonthYearPickerRouter,
+    private val onMonthYearPicked: (month: Int, year: Int) -> Unit
 ) : ListAdapter<RouteListItem, RecyclerView.ViewHolder>(RouteInfoDiffCallback()) {
 
     companion object {
@@ -30,7 +31,7 @@ class RouteListAdapter(
         RouteListItem.RoutesHeader -> ROUTES_HEADER
         is RouteListItem.Card -> CARD_INFO
         is RouteListItem.RouteItem -> ROUTE_LIST
-        is RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
+        RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
     }
 
     override fun onCreateViewHolder(
@@ -42,7 +43,8 @@ class RouteListAdapter(
         return when (viewType) {
             CALENDAR_HEADER -> CalendarViewHolder(
                 ItemHeaderBinding.inflate(inflater, parent, false),
-                router
+                router,
+                onMonthYearPicked
             )
 
             CARD_INFO -> CardViewHolder(
@@ -69,7 +71,6 @@ class RouteListAdapter(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-
         when (val item = getItem(position)) {
             is RouteListItem.CalendarHeader -> (holder as CalendarViewHolder).bind(item)
             is RouteListItem.Card -> (holder as CardViewHolder).bind(item)

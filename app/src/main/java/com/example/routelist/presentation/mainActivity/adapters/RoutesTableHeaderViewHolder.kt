@@ -3,6 +3,7 @@ package com.example.routelist.presentation.mainActivity.adapters
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routelist.databinding.ItemRouteTableHeaderBinding
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
+import com.example.routelist.presentation.mainActivity.model.RoutePosition
 
 class RoutesTableHeaderViewHolder(
     private val binding: ItemRouteTableHeaderBinding
@@ -13,6 +14,6 @@ class RoutesTableHeaderViewHolder(
         binding.headerStart.text = "Явка"
         binding.headerEnd.text = "Окончание"
         binding.headerHours.text = "Часы"
-        binding.cardViewMaterial.shapeAppearanceModel = item.routePosition.shapeAppearanceModel
+        binding.cardViewMaterial.shapeAppearanceModel = RoutePosition.First.shapeAppearanceModel
     }
 }

@@ -30,4 +30,15 @@ class RouteRepositoryImpl @Inject constructor(
         routeInfoDao.deleteRoute(mapper.mapInfoToDb(route))
     }
 
+    override fun getRoutesByMonthYear(
+        year: String,
+        month: String
+    ): Flow<List<RouteListInfo>> =
+        routeInfoDao.getRoutesByMonthYearFlow(
+            year = year.trim(),
+            month = month.trim().padStart(2, '0')
+        ).map { list ->
+            list.map { mapper.mapDbToInfo(it) }
+        }
+
 }

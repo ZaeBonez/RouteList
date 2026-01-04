@@ -10,18 +10,14 @@ class RouteInfoDiffCallback : DiffUtil.ItemCallback<RouteListItem>() {
         newItem: RouteListItem
     ): Boolean {
         return when {
-            oldItem is RouteListItem.CalendarHeader &&
-                    newItem is RouteListItem.CalendarHeader -> true
+            oldItem is RouteListItem.CalendarHeader && newItem is RouteListItem.CalendarHeader -> true
+            oldItem is RouteListItem.RoutesHeader && newItem is RouteListItem.RoutesHeader -> true
+            oldItem is RouteListItem.RoutesTableHeaders && newItem is RouteListItem.RoutesTableHeaders -> true
 
-            oldItem is RouteListItem.RoutesHeader &&
-                    newItem is RouteListItem.RoutesHeader -> true
-
-            oldItem is RouteListItem.Card &&
-                    newItem is RouteListItem.Card ->
+            oldItem is RouteListItem.Card && newItem is RouteListItem.Card ->
                 oldItem.title == newItem.title
 
-            oldItem is RouteListItem.RouteItem &&
-                    newItem is RouteListItem.RouteItem ->
+            oldItem is RouteListItem.RouteItem && newItem is RouteListItem.RouteItem ->
                 oldItem.trainNumber == newItem.trainNumber &&
                         oldItem.start == newItem.start &&
                         oldItem.end == newItem.end
