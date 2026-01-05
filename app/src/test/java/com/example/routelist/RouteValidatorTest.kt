@@ -33,57 +33,72 @@ class RouteValidatorTest {
     fun checkNumberError() {
         val model = validModel().copy(number = "")
         val result = chain.validate(model)
-        assertEquals("Введите номер маршрута", result)
-    }
-
-    @Test
-    fun checkTrainNumberError() {
-        val model = validModel().copy(trainNumber = "")
-        val result = chain.validate(model)
-        assertEquals("Введите номер поезда", result)
-    }
-
-    @Test
-    fun checkCarriageCountError() {
-        val model = validModel().copy(carriageCount = "")
-        val result = chain.validate(model)
-        assertEquals("Введите количество вагонов", result)
-    }
-
-    @Test
-    fun checkStartDateError() {
-        val model = validModel().copy(startDate = "")
-        val result = chain.validate(model)
-        assertEquals("Введите дату начала", result)
-    }
-
-    @Test
-    fun checkEndDateError() {
-        val model = validModel().copy(endDate = "")
-        val result = chain.validate(model)
-        assertEquals("Введите дату окончания", result)
+        assertEquals(R.string.route_number, result)
     }
 
     @Test
     fun checkStartStationError() {
         val model = validModel().copy(startStation = "")
         val result = chain.validate(model)
-        assertEquals("Введите станцию отправления", result)
+        assertEquals(R.string.start_station, result)
     }
 
     @Test
     fun checkEndStationError() {
         val model = validModel().copy(endStation = "")
         val result = chain.validate(model)
-        assertEquals("Введите станцию назначения", result)
+        assertEquals(R.string.end_station, result)
     }
+
+    @Test
+    fun checkTrainNumberError() {
+        val model = validModel().copy(trainNumber = "")
+        val result = chain.validate(model)
+        assertEquals(R.string.train_number, result)
+    }
+
+    @Test
+    fun checkCarriageCountError() {
+        val model = validModel().copy(carriageCount = "")
+        val result = chain.validate(model)
+        assertEquals(R.string.carriage_count, result)
+    }
+
+    @Test
+    fun checkStartDateError() {
+        val model = validModel().copy(startDate = "")
+        val result = chain.validate(model)
+        assertEquals(R.string.start_date, result)
+    }
+
+    @Test
+    fun checkEndDateError() {
+        val model = validModel().copy(endDate = "")
+        val result = chain.validate(model)
+        assertEquals(R.string.end_date, result)
+    }
+
+//    @Test
+//    fun checkKilometerCount() {
+//        val model = validModel().copy()
+//        val result = chain.validate(model)
+//        assertEquals("Введите расстояние", result)
+//    }
+//
+//    @Test
+//    fun checkStopsCount() {
+//        val model = validModel().copy()
+//        val result = chain.validate(model)
+//        assertEquals("Введите количество остановок", result)
+//    }
+
 
     private fun validModel() = AddRouteChainModel(
         number = "1",
         trainNumber = "123",
         carriageCount = "5",
-        startDate = "2026-01-01",
-        endDate = "2026-01-02",
+        startDate = "01.01.2026 10:00",
+        endDate = "01.01.2026 12:00",
         startStation = "A",
         endStation = "B",
     )

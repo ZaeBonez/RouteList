@@ -1,5 +1,7 @@
 package com.example.routelist.presentation.addRouteActivity.chain
 
+
+import com.example.routelist.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -9,9 +11,7 @@ class NumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() 
         return model.number.isNullOrBlank()
     }
 
-    override fun getErrorText(): String {
-        return "Введите номер маршрута"
-    }
+    override fun getErrorText(): Int = R.string.route_number
 }
 
 class TrainNumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
@@ -20,9 +20,7 @@ class TrainNumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Ba
         return model.trainNumber.isNullOrBlank()
     }
 
-    override fun getErrorText(): String {
-        return "Введите номер поезда"
-    }
+    override fun getErrorText():  Int = R.string.train_number
 }
 
 class CarriageCountChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
@@ -31,9 +29,7 @@ class CarriageCountChain(override val newChain: AddRouteChain?) : AddRouteChain.
         return model.carriageCount.isNullOrBlank()
     }
 
-    override fun getErrorText(): String {
-        return "Введите количество вагонов"
-    }
+    override fun getErrorText(): Int = R.string.carriage_count
 }
 
 class StartStationChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
@@ -42,9 +38,7 @@ class StartStationChain(override val newChain: AddRouteChain?) : AddRouteChain.B
         return model.startStation.isNullOrBlank()
     }
 
-    override fun getErrorText(): String {
-        return "Введите станцию отправления"
-    }
+    override fun getErrorText():  Int = R.string.start_station
 }
 
 class EndStationChain : AddRouteChain.Base() {
@@ -53,9 +47,7 @@ class EndStationChain : AddRouteChain.Base() {
         return model.endStation.isNullOrBlank()
     }
 
-    override fun getErrorText(): String {
-        return "Введите станцию назначения"
-    }
+    override fun getErrorText(): Int = R.string.end_station
 }
 
 abstract class DateChain : AddRouteChain.Base() {
@@ -67,7 +59,7 @@ abstract class DateChain : AddRouteChain.Base() {
         return date.isNullOrBlank() || parseDate(date) == null
     }
 
-    override fun getErrorText(): String = "Введите номер маршрута"
+    override fun getErrorText(): Int = R.string.route_number
 
     private fun parseDate(s: String) = try {
         LocalDateTime.parse(s, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
@@ -79,8 +71,13 @@ abstract class DateChain : AddRouteChain.Base() {
 class StartDateChain(override val newChain: AddRouteChain?) : DateChain() {
 
     override fun getDate(model: AddRouteChainModel): String? = model.startDate
+
+    override fun getErrorText(): Int = R.string.start_date
 }
 
 class EndDateChain(override val newChain: AddRouteChain?) : DateChain() {
+
     override fun getDate(model: AddRouteChainModel): String? = model.endDate
+
+    override fun getErrorText(): Int = R.string.end_date
 }
