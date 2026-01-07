@@ -7,17 +7,20 @@ import com.example.routelist.presentation.mainActivity.model.RouteListItem
 
 class CalendarViewHolder(
     private val binding: ItemHeaderBinding,
-    private val router: MonthYearPickerRouter
+    private val router: MonthYearPickerRouter,
+    private val onMonthYearPicked: (monthZeroBased: Int, year: Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: RouteListItem.CalendarHeader) {
-        binding.tvCalendarHeader.text = "${router.getMonthName(item.month)} ${item.year}"
+        val monthName = router.getMonthName(item.month)
+        binding.tvCalendarHeader.text = "$monthName ${item.year}" // имя поля поменяй под свой layout
 
-        binding.tvCalendarHeader.setOnClickListener {
-            router.show(item.month,item.year) { monthName, month, year ->
-                item.month = month
-                item.year = year
-                binding.tvCalendarHeader.text = "$monthName $year"
+        binding.root.setOnClickListener {
+            router.show(
+                initialMonth = item.month, // 0..11
+                initialYear = item.year
+            ) { _, monthZeroBased, year ->
+                onMonthYearPicked(monthZeroBased, year)
             }
         }
     }

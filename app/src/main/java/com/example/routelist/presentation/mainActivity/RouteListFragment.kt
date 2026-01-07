@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.R
@@ -15,7 +13,6 @@ import com.example.routelist.databinding.FragmentMainBinding
 import com.example.routelist.presentation.addRouteActivity.AddRouteFragment
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
-import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import javax.inject.Inject
 
 
@@ -40,8 +37,6 @@ class RouteListFragment : Fragment() {
         (requireActivity().application as RouteApp).component
     }
 
-    private val _items = MutableLiveData<List<RouteListItem>>()
-    val items: LiveData<List<RouteListItem>> get() = _items
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -60,10 +55,11 @@ class RouteListFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[RouteViewModel::class]
 
+        monthYearPicker = MonthYearPickerRouter(requireContext())
+
         setupRecyclerView()
         observeViewModel()
 
-        monthYearPicker = MonthYearPickerRouter(requireContext())
 
         binding.addNewRoute.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -71,7 +67,6 @@ class RouteListFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-
 
     }
 
@@ -85,11 +80,16 @@ class RouteListFragment : Fragment() {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvMain.layoutManager = layoutManager
 
+        adapter = RouteListAdapter(
+            router = monthYearPicker,
+            onMonthYearPicked = { monthZeroBased, year ->
+                viewModel.setMonthYear(monthZeroBased, year)
+            }
+        )
 
-        val router = MonthYearPickerRouter(requireContext())
-
-        adapter = RouteListAdapter(router)
         binding.rvMain.adapter = adapter
+        (binding.rvMain.itemAnimator as? androidx.recyclerview.widget.SimpleItemAnimator)
+            ?.supportsChangeAnimations = false
 
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -98,17 +98,16 @@ class RouteListFragment : Fragment() {
                     else -> 2
                 }
             }
-
         }
-
     }
+
+
+
 
     private fun observeViewModel() {
         viewModel.items.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
     }
-
-
 }
 

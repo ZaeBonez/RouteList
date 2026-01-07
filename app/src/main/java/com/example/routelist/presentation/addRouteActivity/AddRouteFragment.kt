@@ -63,8 +63,6 @@ class AddRouteFragment : Fragment() {
             }
         }
 
-
-
         lifecycleScope.launch {
             viewModel.getErrorFlow().flowWithLifecycle(lifecycle).collect {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -73,8 +71,6 @@ class AddRouteFragment : Fragment() {
 
         addTextChangeListeners()
         setupDatePickerListeners()
-
-
         saveButton()
 
     }
@@ -125,7 +121,6 @@ class AddRouteFragment : Fragment() {
     fun setupPassengerInfo(item: AddRouteState) {
         binding.etArrivalDate.setText(item.passengerInfo.passengerStartDate)
         binding.etDepartureDate.setText(item.passengerInfo.passengerEndDate)
-
     }
 
     fun setupDatePickerListeners() {
@@ -156,16 +151,15 @@ class AddRouteFragment : Fragment() {
 
     }
 
-
     private fun saveButton() {
 
         binding.saveRoute.setOnClickListener {
+
             if (viewModel.validate()) {
                 viewModel.saveRoute()
                 Toast.makeText(requireContext(), "Маршрут сохранён", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             }
-
         }
     }
 }

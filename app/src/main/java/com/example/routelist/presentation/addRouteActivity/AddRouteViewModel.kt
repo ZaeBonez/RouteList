@@ -23,7 +23,7 @@ class AddRouteViewModel @Inject constructor(
 
     private val state = MutableStateFlow(AddRouteState())
 
-    private val errorFlow = MutableSharedFlow<String>()
+    private val errorFlow = MutableSharedFlow<Int>()
 
 
     fun updateRouteNumber(number: String) {
@@ -135,7 +135,7 @@ class AddRouteViewModel @Inject constructor(
         return state
     }
 
-    fun getErrorFlow(): SharedFlow<String> {
+    fun getErrorFlow(): SharedFlow<Int> {
         return errorFlow
     }
 

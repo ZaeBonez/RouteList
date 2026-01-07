@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import java.time.YearMonth
 
 @Dao
 interface RouteInfoDao {
@@ -19,5 +18,8 @@ interface RouteInfoDao {
 
     @Delete
     suspend fun deleteRoute(route: RouteListDbModel)
+
+    @Query("SELECT * FROM routes WHERE substr(startDate, 7, 4) = :year AND substr(startDate, 4, 2) = :month ORDER BY id DESC")
+    fun getRoutesByMonthYearFlow(year: String, month: String): Flow<List<RouteListDbModel>>
 
 }
