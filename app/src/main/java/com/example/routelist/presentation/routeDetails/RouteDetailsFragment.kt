@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.routelist.databinding.FragmentRouteDetailsBinding
 import com.example.routelist.presentation.mainActivity.RouteApp
-import com.example.routelist.presentation.mainActivity.RouteViewModel
 import com.example.routelist.presentation.mainActivity.ViewModelFactory
 import com.example.routelist.presentation.routeDetails.utils.NightHoursCalculator
 import javax.inject.Inject
@@ -21,7 +20,6 @@ class RouteDetailsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-
     private var _binding: FragmentRouteDetailsBinding? = null
     private val binding: FragmentRouteDetailsBinding
         get() = _binding!!
@@ -31,7 +29,7 @@ class RouteDetailsFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-       component.inject(this)
+        component.inject(this)
         super.onAttach(context)
     }
 
@@ -49,57 +47,56 @@ class RouteDetailsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[RouteDetailsViewModel::class]
 
-        val routeId = requireArguments().getInt(ARG_ID)
-        val trainNumber = arguments?.getString(ARG_TRAIN_NUMBER).orEmpty()
-        val start = arguments?.getString(ARG_START).orEmpty()
-        val end = arguments?.getString(ARG_END).orEmpty()
-        val hours = arguments?.getString(ARG_HOURS).orEmpty()
+        val routeId = requireArguments().getInt("route_id")
+        val trainNumber = arguments?.getString("train_number").orEmpty()
+        val start = arguments?.getString("start").orEmpty()
+        val end = arguments?.getString("end").orEmpty()
+        val hours = arguments?.getString("hours").orEmpty()
 
-        if (trainNumber.isNotBlank()) {
-            binding.tvTitleNumber.text = "Маршрут №$trainNumber"
-        }
-        if (hours.isNotBlank()) {
-            binding.tvWorkedTime.text = hours
-        }
-        if (start.isNotBlank()) {
-            binding.tvRouteStart.text = start
-        }
-        if (end.isNotBlank()) {
-            binding.tvRouteEnd.text = end
-        }
+        bindRouteInfo(trainNumber, start, end, hours)
+        bindNightTime(start, end)
+        bindAmountsZero()
+        setupClicks(routeId)
+    }
 
-        val nightMins = NightHoursCalculator().calculateNightMinutes(start,end)
-        binding.tvNightTime.text = NightHoursCalculator().formatNightMinutes(nightMins)
+    private fun bindRouteInfo(trainNumber: String, start: String, end: String, hours: String) {
+        binding.tvTitleNumber.text = "Маршрут №$trainNumber"
+        binding.tvWorkedTime.text = hours
+        binding.tvRouteStart.text = start
+        binding.tvRouteEnd.text = end
+    }
 
-        binding.tvNightAmount.text = "0 ₽"
-        binding.tvTotalAmount.text = "0 ₽"
-        binding.tvHourlyAmount.text = "0 ₽"
-        binding.tvPassengerAmount.text = "0 ₽"
-        binding.tvSummaryAmount.text = "0 ₽"
+    private fun bindNightTime(start: String, end: String) {
+        val nightMins = NightHoursCalculator.calculateNightMinutes(start, end)
+        binding.tvNightTime.text = NightHoursCalculator.formatNightMinutes(nightMins)
+    }
+
+    private fun bindAmountsZero() = with(binding) {
+        tvNightAmount.text = "0 ₽"
+        tvTotalAmount.text = "0 ₽"
+        tvHourlyAmount.text = "0 ₽"
+        tvPassengerAmount.text = "0 ₽"
+        tvSummaryAmount.text = "0 ₽"
+    }
+
+    private fun setupClicks(routeId: Int) {
 
         binding.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
         binding.btnClose.setOnClickListener { parentFragmentManager.popBackStack() }
+
         binding.btnDelete.setOnClickListener {
-            val id = routeId ?: return@setOnClickListener
-            viewModel.deleteRoute(id)
+            viewModel.deleteRoute(routeId)
             parentFragmentManager.popBackStack()
         }
-        binding.btnEdit.setOnClickListener {
 
+        binding.btnEdit.setOnClickListener {
+            TODO()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-
-    companion object {
-        const val ARG_ID = "route_id"
-        const val ARG_TRAIN_NUMBER = "train_number"
-        const val ARG_START = "start"
-        const val ARG_END = "end"
-        const val ARG_HOURS = "hours"
     }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class NightHoursCalculator() {
+object NightHoursCalculator {
 
     private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 

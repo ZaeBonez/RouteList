@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.R
 import com.example.routelist.databinding.FragmentMainBinding
 import com.example.routelist.presentation.addRouteActivity.AddRouteFragment
-import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
+import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.routeDetails.RouteDetailsFragment
 import javax.inject.Inject
 
@@ -107,8 +107,6 @@ class RouteListFragment : Fragment() {
     }
 
 
-
-
     private fun observeViewModel() {
         viewModel.items.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
@@ -117,11 +115,11 @@ class RouteListFragment : Fragment() {
 
     private fun openRouteDetails(routeItem: RouteListItem.RouteItem) {
         val bundle = Bundle().apply {
-            putInt(RouteDetailsFragment.ARG_ID, routeItem.id)
-            putString(RouteDetailsFragment.ARG_TRAIN_NUMBER, routeItem.trainNumber)
-            putString(RouteDetailsFragment.ARG_START, routeItem.start)
-            putString(RouteDetailsFragment.ARG_END, routeItem.end)
-            putString(RouteDetailsFragment.ARG_HOURS, routeItem.hours)
+            putInt("route_id", routeItem.id)
+            putString("train_number", routeItem.trainNumber)
+            putString("start", routeItem.start)
+            putString("end", routeItem.end)
+            putString("hours", routeItem.hours)
         }
 
         val detailsFragment = RouteDetailsFragment().apply {
@@ -133,5 +131,6 @@ class RouteListFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
 }
 
