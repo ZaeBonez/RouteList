@@ -15,7 +15,8 @@ import com.example.routelist.presentation.mainActivity.model.RouteListItem
 
 class RouteListAdapter(
     private val router: MonthYearPickerRouter,
-    private val onMonthYearPicked: (month: Int, year: Int) -> Unit
+    private val onMonthYearPicked: (month: Int, year: Int) -> Unit,
+    private val onRouteClick: (RouteListItem.RouteItem) -> Unit
 ) : ListAdapter<RouteListItem, RecyclerView.ViewHolder>(RouteInfoDiffCallback()) {
 
     companion object {
@@ -56,7 +57,8 @@ class RouteListAdapter(
             )
 
             ROUTE_LIST -> RouteViewHolder(
-                ItemRouteBinding.inflate(inflater, parent, false)
+                ItemRouteBinding.inflate(inflater, parent, false),
+                onRouteClick
             )
 
             ROUTES_TABLE_HEADER -> RoutesTableHeaderViewHolder(

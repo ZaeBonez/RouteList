@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+
+    <!-- Большой светло-фиолетовый круг -->
+    <path
+        android:fillColor="#E6E4FF"
+        android:pathData="M12,3
+                          a9,9 0 1,1 0,18
+                          a9,9 0 1,1 0,-18" />
+
+    <!-- Синий круг (основа месяца) - по центру -->
+    <path
+        android:fillColor="#5D78DF"
+        android:pathData="M12.3,6.9
+                          a5.2,5.2 0 1,1 0,10.4
+                          a5.2,5.2 0 1,1 0,-10.4" />
+
+    <!-- "Вырез" (цветом фона круга) - чуть правее и чуть выше -->
+    <path
+        android:fillColor="#E6E4FF"
+        android:pathData="M15.9,6.5
+                          a3,5. 0 1,1 0,10.3
+                          a5.2,5.2 0 1,1 0,-10.8" />
+
+</vector>

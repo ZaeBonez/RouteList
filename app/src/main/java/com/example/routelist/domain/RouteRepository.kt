@@ -10,7 +10,7 @@ interface RouteRepository {
 
     suspend fun insertRoute(route: RouteListInfo)
 
-    suspend fun deleteRoute(route: RouteListInfo)
+    suspend fun deleteRouteById(id: Int)
 
     fun getRoutesByMonthYear(year: String, month: String): Flow<List<RouteListInfo>>
 }

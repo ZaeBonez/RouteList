@@ -26,8 +26,8 @@ class RouteRepositoryImpl @Inject constructor(
         routeInfoDao.insertRoute(mapper.mapInfoToDb(route))
     }
 
-    override suspend fun deleteRoute(route: RouteListInfo) {
-        routeInfoDao.deleteRoute(mapper.mapInfoToDb(route))
+    override suspend fun deleteRouteById(id: Int) {
+        routeInfoDao.deleteRouteById(id)
     }
 
     override fun getRoutesByMonthYear(

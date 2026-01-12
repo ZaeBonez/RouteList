@@ -5,5 +5,5 @@ import javax.inject.Inject
 class DeleteRouteUseCase @Inject constructor(
     private val repository: RouteRepository
 ) {
-    suspend operator fun invoke(route: RouteListInfo) = repository.deleteRoute(route)
+    suspend operator fun invoke(id: Int) = repository.deleteRouteById(id)
 }

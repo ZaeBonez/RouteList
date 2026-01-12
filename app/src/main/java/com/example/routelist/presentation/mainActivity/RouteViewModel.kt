@@ -100,6 +100,7 @@ class RouteViewModel @Inject constructor(
                 }
                 ui.add(
                     RouteListItem.RouteItem(
+                        id = route.id,
                         trainNumber = route.routeNumber,
                         start = route.startDate,
                         end = route.endDate,

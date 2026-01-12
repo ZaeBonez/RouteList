@@ -13,4 +13,5 @@
     <string name="end_station">Введите станцию назначения</string>
     <string name="start_date">Введите дату начала</string>
     <string name="end_date">Введите дату окончания</string>
+    <string name="back">Назад</string>
 </resources>
