@@ -18,6 +18,7 @@ sealed class RouteListItem {
     ) : RouteListItem()
 
     data class RouteItem(
+        val id : Int,
         val trainNumber: String,
         val start: String,
         val end: String,

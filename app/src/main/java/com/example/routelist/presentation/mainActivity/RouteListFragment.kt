@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.R
 import com.example.routelist.databinding.FragmentMainBinding
 import com.example.routelist.presentation.addRouteActivity.AddRouteFragment
+import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
+import com.example.routelist.presentation.routeDetails.RouteDetailsFragment
 import javax.inject.Inject
 
 
@@ -84,6 +86,9 @@ class RouteListFragment : Fragment() {
             router = monthYearPicker,
             onMonthYearPicked = { monthZeroBased, year ->
                 viewModel.setMonthYear(monthZeroBased, year)
+            },
+            onRouteClick = { routeItem ->
+                openRouteDetails(routeItem)
             }
         )
 
@@ -108,6 +113,25 @@ class RouteListFragment : Fragment() {
         viewModel.items.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
+    }
+
+    private fun openRouteDetails(routeItem: RouteListItem.RouteItem) {
+        val bundle = Bundle().apply {
+            putInt(RouteDetailsFragment.ARG_ID, routeItem.id)
+            putString(RouteDetailsFragment.ARG_TRAIN_NUMBER, routeItem.trainNumber)
+            putString(RouteDetailsFragment.ARG_START, routeItem.start)
+            putString(RouteDetailsFragment.ARG_END, routeItem.end)
+            putString(RouteDetailsFragment.ARG_HOURS, routeItem.hours)
+        }
+
+        val detailsFragment = RouteDetailsFragment().apply {
+            arguments = bundle
+        }
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.route_list_container, detailsFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
 

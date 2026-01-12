@@ -3,6 +3,7 @@ package com.example.routelist.di
 import androidx.lifecycle.ViewModel
 import com.example.routelist.presentation.addRouteActivity.AddRouteViewModel
 import com.example.routelist.presentation.mainActivity.RouteViewModel
+import com.example.routelist.presentation.routeDetails.RouteDetailsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,5 +20,10 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(RouteViewModel::class)
     fun bindRouteViewModel(viewModel: RouteViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RouteDetailsViewModel::class)
+    fun bindRouteDetailsViewModel(viewModel: RouteDetailsViewModel): ViewModel
 
 }
