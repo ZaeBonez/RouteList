@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.mainActivity
+package com.example.routelist.presentation.mainActivity.sl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -30,6 +30,10 @@ class RouteRepositoryImpl @Inject constructor(
         routeInfoDao.deleteRouteById(id)
     }
 
+    override suspend fun updateRoute(route: RouteListInfo) {
+        routeInfoDao.updateRoute(mapper.mapInfoToDb(route))
+    }
+
     override fun getRoutesByMonthYear(
         year: String,
         month: String

@@ -6,11 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.routelist.databinding.FragmentRouteDetailsBinding
 import com.example.routelist.presentation.mainActivity.RouteApp
-import com.example.routelist.presentation.mainActivity.ViewModelFactory
-import com.example.routelist.presentation.routeDetails.utils.NightHoursCalculator
+import com.example.routelist.presentation.mainActivity.model.RouteListItem
+import com.example.routelist.presentation.mainActivity.sl.ViewModelFactory
+import com.example.routelist.presentation.routeDetails.model.RouteArgs
+import com.example.routelist.presentation.routeDetails.model.RouteDetailsState
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RouteDetailsFragment : Fragment() {
@@ -34,9 +40,7 @@ class RouteDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRouteDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -47,37 +51,46 @@ class RouteDetailsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[RouteDetailsViewModel::class]
 
-        val routeId = requireArguments().getInt("route_id")
-        val trainNumber = arguments?.getString("train_number").orEmpty()
-        val start = arguments?.getString("start").orEmpty()
-        val end = arguments?.getString("end").orEmpty()
-        val hours = arguments?.getString("hours").orEmpty()
+        val args = readArgs()
 
-        bindRouteInfo(trainNumber, start, end, hours)
-        bindNightTime(start, end)
-        bindAmountsZero()
-        setupClicks(routeId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getState().collect { state ->
+                    render(state)
+                }
+            }
+        }
+
+        viewModel.init(args)
+
+        setupClicks(args.routeId)
     }
 
-    private fun bindRouteInfo(trainNumber: String, start: String, end: String, hours: String) {
-        binding.tvTitleNumber.text = "Маршрут №$trainNumber"
-        binding.tvWorkedTime.text = hours
-        binding.tvRouteStart.text = start
-        binding.tvRouteEnd.text = end
+
+    private fun render(state: RouteDetailsState) = with(binding) {
+        val a = state.routeArgs
+
+        tvTitleNumber.text = "Маршрут №${a.trainNumber}"
+        tvWorkedTime.text = a.hours
+        tvRouteStart.text = a.start
+        tvRouteEnd.text = a.end
+        tvNightTime.text = state.nightTime
+
+        tvNightAmount.text = state.amountsDetails.nightAmount
+        tvTotalAmount.text = state.amountsDetails.totalAmount
+        tvHourlyAmount.text = state.amountsDetails.hourlyAmount
+        tvPassengerAmount.text = state.amountsDetails.passengerAmount
+        tvSummaryAmount.text = state.amountsDetails.summaryAmount
     }
 
-    private fun bindNightTime(start: String, end: String) {
-        val nightMins = NightHoursCalculator.calculateNightMinutes(start, end)
-        binding.tvNightTime.text = NightHoursCalculator.formatNightMinutes(nightMins)
-    }
 
-    private fun bindAmountsZero() = with(binding) {
-        tvNightAmount.text = "0 ₽"
-        tvTotalAmount.text = "0 ₽"
-        tvHourlyAmount.text = "0 ₽"
-        tvPassengerAmount.text = "0 ₽"
-        tvSummaryAmount.text = "0 ₽"
-    }
+    private fun readArgs(): RouteArgs = RouteArgs(
+        routeId = requireArguments().getInt("route_id"),
+        trainNumber = requireArguments().getString("train_number").orEmpty(),
+        start = requireArguments().getString("start").orEmpty(),
+        end = requireArguments().getString("end").orEmpty(),
+        hours = requireArguments().getString("hours").orEmpty(),
+    )
 
     private fun setupClicks(routeId: Int) {
 
@@ -98,5 +111,17 @@ class RouteDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance(item: RouteListItem.RouteItem) = RouteDetailsFragment().apply {
+            arguments = Bundle().apply {
+                putInt("route_id", item.id)
+                putString("train_number", item.trainNumber)
+                putString("start", item.start)
+                putString("end", item.end)
+                putString("hours", item.hours)
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.routelist.presentation.addRouteActivity
 
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.InsertRouteUseCase
 import com.example.routelist.domain.RouteListInfo
@@ -9,8 +8,8 @@ import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChain
 import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChainModel
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.RouteNumber
+import com.example.routelist.presentation.mainActivity.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,72 +17,72 @@ import javax.inject.Inject
 
 class AddRouteViewModel @Inject constructor(
     private val insertRouteUseCase: InsertRouteUseCase,
-    private val addRouteChain: AddRouteChain,
-) : ViewModel() {
-
-    private val state = MutableStateFlow(AddRouteState())
+    private val addRouteChain: AddRouteChain
+) : BaseViewModel<AddRouteState>(AddRouteState()) {
 
     private val errorFlow = MutableSharedFlow<Int>()
 
 
     fun updateRouteNumber(number: String) {
-        state.value = state.value.copy(routeNumber = RouteNumber(number))
+        setState { copy(routeNumber = RouteNumber(number)) }
     }
 
     fun updateStartDateRow(start: String) {
         val current = state.value
-        state.value = current.copy(
-            dateRow = current.dateRow.copy(startDate = start)
-        )
+        setState {
+            copy(dateRow = current.dateRow.copy(startDate = start))
+        }
     }
 
     fun updateEndDateRow(end: String) {
         val current = state.value
-        state.value = current.copy(
-            dateRow = current.dateRow.copy(endDate = end)
-        )
+        setState {
+            copy(dateRow = current.dateRow.copy(endDate = end))
+        }
     }
+
 
     fun updateTrainNumber(trainNum: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(trainNumber = trainNum)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(trainNumber = trainNum))
+        }
     }
 
     fun updateCarriageCount(carriageCount: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(carriageCount = carriageCount)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(carriageCount = carriageCount))
+        }
     }
 
     fun updateStartStation(startStation: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(startStation = startStation)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(startStation = startStation))
+        }
+
     }
 
     fun updateEndStation(endStation: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(endStation = endStation)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(endStation = endStation))
+        }
     }
 
     fun updateDistance(distance: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(distance = distance)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(distance = distance))
+        }
     }
 
     fun updateCountStop(stopsCount: String) {
         val current = state.value
-        state.value = current.copy(
-            trainInfo = current.trainInfo.copy(stopsCount = stopsCount)
-        )
+        setState {
+            copy(trainInfo = current.trainInfo.copy(stopsCount = stopsCount))
+        }
     }
 
 
@@ -96,17 +95,22 @@ class AddRouteViewModel @Inject constructor(
 
     fun updatePassengerStartDateRow(start: String) {
         val current = state.value
-        state.value = current.copy(
-            passengerInfo = current.passengerInfo.copy(passengerStartDate = start)
-        )
+        setState {
+            copy(
+                passengerInfo = current.passengerInfo.copy(passengerStartDate = start)
+            )
+        }
     }
 
     fun updatePassengerEndDateRow(end: String) {
         val current = state.value
-        state.value = current.copy(
-            passengerInfo = current.passengerInfo.copy(passengerEndDate = end)
-        )
+        setState {
+            copy(
+                passengerInfo = current.passengerInfo.copy(passengerEndDate = end)
+            )
+        }
     }
+
 
     fun saveRoute() {
         viewModelScope.launch {
@@ -153,8 +157,6 @@ class AddRouteViewModel @Inject constructor(
                 endStation = s.trainInfo.endStation,
             )
         )
-
-
 
         return error?.let {
             viewModelScope.launch {

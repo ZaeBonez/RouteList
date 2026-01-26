@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,6 +19,9 @@ interface RouteInfoDao {
 
     @Query("DELETE FROM routes WHERE id = :id")
     suspend fun deleteRouteById(id: Int)
+
+    @Update
+    suspend fun updateRoute(rout: RouteListDbModel)
 
     @Query("SELECT * FROM routes WHERE substr(startDate, 7, 4) = :year AND substr(startDate, 4, 2) = :month ORDER BY id DESC")
     fun getRoutesByMonthYearFlow(year: String, month: String): Flow<List<RouteListDbModel>>

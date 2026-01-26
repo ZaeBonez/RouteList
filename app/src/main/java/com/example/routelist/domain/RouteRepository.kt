@@ -12,5 +12,7 @@ interface RouteRepository {
 
     suspend fun deleteRouteById(id: Int)
 
+    suspend fun updateRoute(route: RouteListInfo)
+
     fun getRoutesByMonthYear(year: String, month: String): Flow<List<RouteListInfo>>
 }

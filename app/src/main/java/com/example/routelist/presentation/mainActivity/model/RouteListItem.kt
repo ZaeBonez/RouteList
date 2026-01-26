@@ -3,8 +3,8 @@ package com.example.routelist.presentation.mainActivity.model
 sealed class RouteListItem {
 
     data class CalendarHeader(
-        var month: Int,
-        var year: Int
+        val month: Int,
+        val year: Int
     ) : RouteListItem()
 
 

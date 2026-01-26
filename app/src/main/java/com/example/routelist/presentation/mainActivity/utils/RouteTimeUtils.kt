@@ -4,8 +4,12 @@ import com.example.routelist.domain.RouteListInfo
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object RouteTimeUtils {
+
+@Singleton
+class RouteTimeUtils @Inject constructor() {
 
     private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
