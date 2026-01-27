@@ -4,22 +4,19 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import com.example.routelist.databinding.MonthYearPickerBinding
-import java.util.Calendar
 
 class MonthYearPickerRouter(
-    private val context: Context
+   private val context: Context
 ) {
 
     fun show(
         initialMonth: Int,
         initialYear: Int,
         onPicked: (monthName: String, month: Int, year: Int) -> Unit,
-
-        ) {
+    ) {
 
         val binding = MonthYearPickerBinding.inflate(LayoutInflater.from(context))
 
-        val current = Calendar.getInstance()
 
         binding.npMonth.minValue = 1
         binding.npMonth.maxValue = 12
@@ -45,7 +42,9 @@ class MonthYearPickerRouter(
             .show()
     }
 
-    fun getMonthName(monthZeroBased: Int): String = months[monthZeroBased]
+    fun getMonthName(monthZeroBased: Int): String = months.getOrElse(monthZeroBased) {
+        "unknown"
+    }
 
     private val months = arrayOf(
         "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",

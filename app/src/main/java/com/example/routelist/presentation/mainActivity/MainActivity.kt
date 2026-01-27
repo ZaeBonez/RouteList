@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.routelist.databinding.ActivityMainBinding
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
-import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +23,5 @@ class MainActivity : AppCompatActivity() {
                 .replace(binding.routeListContainer.id, RouteListFragment())
                 .commit()
         }
-
     }
-
 }

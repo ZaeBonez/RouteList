@@ -15,7 +15,7 @@ import com.example.routelist.databinding.FragmentAddRouteBinding
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.CalendarPickerRouter
 import com.example.routelist.presentation.mainActivity.RouteApp
-import com.example.routelist.presentation.mainActivity.ViewModelFactory
+import com.example.routelist.presentation.mainActivity.sl.ViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -111,6 +111,10 @@ class AddRouteFragment : Fragment() {
             viewModel.updateCountStop(stopsCount = text.toString())
         }
 
+        binding.etPassengerTrainNumber.doOnTextChanged { text, _, _, _ ->
+            viewModel.updatePassengerNumber(number = text.toString())
+        }
+
     }
 
     fun setupDateRow(item: AddRouteState) {
@@ -119,6 +123,7 @@ class AddRouteFragment : Fragment() {
     }
 
     fun setupPassengerInfo(item: AddRouteState) {
+        binding.etPassengerTrainNumber.setText(item.passengerInfo.passengerTrainNumber)
         binding.etArrivalDate.setText(item.passengerInfo.passengerStartDate)
         binding.etDepartureDate.setText(item.passengerInfo.passengerEndDate)
     }
@@ -136,6 +141,7 @@ class AddRouteFragment : Fragment() {
                 viewModel.updateEndDateRow(end = date)
             }
         }
+
 
         binding.etArrivalDate.setOnClickListener {
             CalendarPickerRouter(requireContext()).show { datePassenger ->

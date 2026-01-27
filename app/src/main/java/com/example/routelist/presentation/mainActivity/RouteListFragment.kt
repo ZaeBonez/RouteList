@@ -1,61 +1,42 @@
 package com.example.routelist.presentation.mainActivity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.R
 import com.example.routelist.databinding.FragmentMainBinding
 import com.example.routelist.presentation.addRouteActivity.AddRouteFragment
-import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
-import com.example.routelist.presentation.routeDetails.RouteDetailsFragment
-import javax.inject.Inject
 
 
-class RouteListFragment : Fragment() {
-
-    private lateinit var viewModel: RouteViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var monthYearPicker: MonthYearPickerRouter
-
-
-    private lateinit var adapter: RouteListAdapter
-
-    private var _binding: FragmentMainBinding? = null
-    private val binding: FragmentMainBinding
-        get() = _binding!!
-
+class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
 
     private val component by lazy {
         (requireActivity().application as RouteApp).component
     }
 
-
-    override fun onAttach(context: Context) {
+    override fun inject() {
         component.inject(this)
-        super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
+    override val viewModelClass: Class<RouteViewModel> = RouteViewModel::class.java
+
+    private lateinit var monthYearPicker: MonthYearPickerRouter
+    private lateinit var adapter: RouteListAdapter
+
+    override fun fragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentMainBinding {
+        return FragmentMainBinding.inflate(inflater, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[RouteViewModel::class]
 
         monthYearPicker = MonthYearPickerRouter(requireContext())
 
@@ -72,11 +53,6 @@ class RouteListFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun setupRecyclerView() {
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
@@ -88,7 +64,7 @@ class RouteListFragment : Fragment() {
                 viewModel.setMonthYear(monthZeroBased, year)
             },
             onRouteClick = { routeItem ->
-                openRouteDetails(routeItem)
+                viewModel.openRouteDetails(routeItem)
             }
         )
 
@@ -99,39 +75,16 @@ class RouteListFragment : Fragment() {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (adapter.getItemViewType(position)) {
-                    RouteListAdapter.CARD_INFO -> 1
+                    RouteListAdapter.CARD_INFO -> 1 // вынести в енам класс и .ordinal
                     else -> 2
                 }
             }
         }
     }
 
-
-
-
     private fun observeViewModel() {
         viewModel.items.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
     }
-
-    private fun openRouteDetails(routeItem: RouteListItem.RouteItem) {
-        val bundle = Bundle().apply {
-            putInt(RouteDetailsFragment.ARG_ID, routeItem.id)
-            putString(RouteDetailsFragment.ARG_TRAIN_NUMBER, routeItem.trainNumber)
-            putString(RouteDetailsFragment.ARG_START, routeItem.start)
-            putString(RouteDetailsFragment.ARG_END, routeItem.end)
-            putString(RouteDetailsFragment.ARG_HOURS, routeItem.hours)
-        }
-
-        val detailsFragment = RouteDetailsFragment().apply {
-            arguments = bundle
-        }
-
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.route_list_container, detailsFragment)
-            .addToBackStack(null)
-            .commit()
-    }
 }
-
