@@ -10,7 +10,8 @@ import com.example.routelist.databinding.ItemRouteBinding
 import com.example.routelist.databinding.ItemRouteTableHeaderBinding
 import com.example.routelist.databinding.ItemRoutesHeaderBinding
 import com.example.routelist.databinding.ItemStatisticCardBinding
-import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
+import com.example.routelist.presentation.mainActivity.adapters.diff.RouteInfoDiffCallback
+import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
 
 class RouteListAdapter(

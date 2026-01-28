@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.mainActivity
+package com.example.routelist.presentation.mainActivity.base
 
 import android.content.Context
 import android.os.Bundle
@@ -38,6 +38,12 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel<*>> : Fragment() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory)[viewModelClass]
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.attach(this)
+
     }
 
     override fun onCreateView(

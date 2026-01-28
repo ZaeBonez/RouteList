@@ -8,7 +8,7 @@ import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChain
 import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChainModel
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.RouteNumber
-import com.example.routelist.presentation.mainActivity.BaseViewModel
+import com.example.routelist.presentation.mainActivity.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch

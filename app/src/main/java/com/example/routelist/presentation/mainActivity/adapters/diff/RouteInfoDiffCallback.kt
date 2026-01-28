@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.mainActivity.adapters
+package com.example.routelist.presentation.mainActivity.adapters.diff
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.routelist.presentation.mainActivity.model.RouteListItem

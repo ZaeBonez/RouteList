@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.GetRoutesByMonthYearUseCase
 import com.example.routelist.domain.RouteListInfo
+import com.example.routelist.presentation.mainActivity.base.BaseViewModel
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
-import com.example.routelist.presentation.mainActivity.model.RoutePosition
 import com.example.routelist.presentation.mainActivity.router.MainRouter
-import com.example.routelist.presentation.mainActivity.utils.RouteTimeUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -17,8 +16,8 @@ import javax.inject.Inject
 
 class RouteViewModel @Inject constructor(
     private val getRoutesByMonthYearUseCase: GetRoutesByMonthYearUseCase,
-    override val router: MainRouter = MainRouter(),
-    private val timeCalculator: RouteTimeUtils
+    override val router: MainRouter,
+    private val routeListFactory: RouteListFactory
 ) : BaseViewModel<List<RouteListItem>>(emptyList()) {
 
     private val _items = MutableLiveData<List<RouteListItem>>()
@@ -69,49 +68,14 @@ class RouteViewModel @Inject constructor(
         router.openRouteDetails(routeItem)
     }
 
+    fun openAddRoute() {
+        router.openAddRoute()
+    }
+
     private fun buildUiList(
         routeList: List<RouteListInfo>, headerMonthZeroBased: Int, headerYear: Int
     ): List<RouteListItem> {
-        // Отдельный класс Factory - DefaultRouteListFactory - buildUiList
-        val totalHours = routeList.sumOf { timeCalculator.workedHours(it) }
-        val nightHours = routeList.sumOf { timeCalculator.nightHours(it) }
-        val passengerHours = 0
-
-        val ui = mutableListOf<RouteListItem>()
-
-        ui.add(RouteListItem.CalendarHeader(headerMonthZeroBased, headerYear))
-
-        ui.add(RouteListItem.Card("Норма часов", "160"))
-        ui.add(RouteListItem.Card("Норма на сегодня", "60"))
-        ui.add(RouteListItem.Card("Всего", timeCalculator.toHoursString(totalHours)))
-        ui.add(RouteListItem.Card("Пассажиром", passengerHours.toString()))
-        ui.add(RouteListItem.Card("Ночных", timeCalculator.toHoursString(nightHours)))
-
-        ui.add(RouteListItem.RoutesHeader)
-
-        if (routeList.isEmpty()) return ui
-
-        ui.add(RouteListItem.RoutesTableHeaders)
-
-        routeList.forEachIndexed { index, route ->
-            val pos = when {
-                routeList.size == 1 -> RoutePosition.Last
-                index == routeList.lastIndex -> RoutePosition.Last
-                else -> RoutePosition.Middle
-            }
-            ui.add(
-                RouteListItem.RouteItem(
-                    id = route.id,
-                    trainNumber = route.routeNumber,
-                    start = route.startDate,
-                    end = route.endDate,
-                    hours = timeCalculator.toHoursString(timeCalculator.workedHours(route)),
-                    routePosition = pos
-                )
-            )
-        }
-
-        return ui
+        return routeListFactory.buildUiList(routeList, headerMonthZeroBased, headerYear)
     }
 
 }

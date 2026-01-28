@@ -7,51 +7,44 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.routelist.databinding.FragmentAddRouteBinding
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
-import com.example.routelist.presentation.addRouteActivity.model.CalendarPickerRouter
+import com.example.routelist.presentation.addRouteActivity.router.CalendarPickerRouter
+import com.example.routelist.presentation.mainActivity.base.BaseFragment
 import com.example.routelist.presentation.mainActivity.RouteApp
-import com.example.routelist.presentation.mainActivity.sl.ViewModelFactory
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-class AddRouteFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-
-    private var _binding: FragmentAddRouteBinding? = null
-    private val binding: FragmentAddRouteBinding
-        get() = _binding!!
-
-
-    val viewModel: AddRouteViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[AddRouteViewModel::class]
-    }
+class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel>() {
 
     private val component by lazy {
         (requireActivity().application as RouteApp).component
     }
+
+
+    override fun inject() {
+        component.inject(this)
+    }
+
+    override val viewModelClass: Class<AddRouteViewModel> = AddRouteViewModel::class.java
+
+    override fun fragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentAddRouteBinding = FragmentAddRouteBinding.inflate(
+        inflater,
+        container,
+        false
+    )
+
 
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAddRouteBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,11 +66,6 @@ class AddRouteFragment : Fragment() {
         setupDatePickerListeners()
         saveButton()
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 
@@ -141,7 +129,6 @@ class AddRouteFragment : Fragment() {
                 viewModel.updateEndDateRow(end = date)
             }
         }
-
 
         binding.etArrivalDate.setOnClickListener {
             CalendarPickerRouter(requireContext()).show { datePassenger ->

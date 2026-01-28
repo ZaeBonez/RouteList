@@ -1,55 +1,43 @@
 package com.example.routelist.presentation.routeDetails
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.routelist.databinding.FragmentRouteDetailsBinding
+import com.example.routelist.presentation.mainActivity.base.BaseFragment
 import com.example.routelist.presentation.mainActivity.RouteApp
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
-import com.example.routelist.presentation.mainActivity.sl.ViewModelFactory
 import com.example.routelist.presentation.routeDetails.model.RouteArgs
 import com.example.routelist.presentation.routeDetails.model.RouteDetailsState
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class RouteDetailsFragment : Fragment() {
+class RouteDetailsFragment : BaseFragment<FragmentRouteDetailsBinding, RouteDetailsViewModel>() {
 
-    private lateinit var viewModel: RouteDetailsViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private var _binding: FragmentRouteDetailsBinding? = null
-    private val binding: FragmentRouteDetailsBinding
-        get() = _binding!!
 
     private val component by lazy {
         (requireActivity().application as RouteApp).component
     }
 
-    override fun onAttach(context: Context) {
+    override fun inject() {
         component.inject(this)
-        super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRouteDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override val viewModelClass: Class<RouteDetailsViewModel> = RouteDetailsViewModel::class.java
+
+
+    override fun fragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentRouteDetailsBinding =
+        FragmentRouteDetailsBinding.inflate(inflater, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[RouteDetailsViewModel::class]
 
         val args = readArgs()
 
@@ -108,10 +96,6 @@ class RouteDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     companion object {
         fun newInstance(item: RouteListItem.RouteItem) = RouteDetailsFragment().apply {
