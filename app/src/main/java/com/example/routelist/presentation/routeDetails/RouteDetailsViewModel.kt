@@ -2,7 +2,7 @@ package com.example.routelist.presentation.routeDetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.DeleteRouteUseCase
-import com.example.routelist.presentation.mainActivity.BaseViewModel
+import com.example.routelist.presentation.mainActivity.base.BaseViewModel
 import com.example.routelist.presentation.mainActivity.router.MainRouter
 import com.example.routelist.presentation.routeDetails.model.AmountDetails
 import com.example.routelist.presentation.routeDetails.model.RouteArgs
@@ -17,7 +17,6 @@ class RouteDetailsViewModel @Inject constructor(
     override val router: MainRouter,
 ) : BaseViewModel<RouteDetailsState>(RouteDetailsState()) {
 
-
     fun init(args: RouteArgs) {
 
         val nightMins = calculator.calculateNightMinutes(args.start, args.end)
@@ -31,6 +30,7 @@ class RouteDetailsViewModel @Inject constructor(
             )
         }
     }
+
 
     fun deleteRoute(id: Int) {
         viewModelScope.launch {

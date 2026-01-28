@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.mainActivity
+package com.example.routelist.presentation.mainActivity.base
 
 import androidx.fragment.app.FragmentManager
 

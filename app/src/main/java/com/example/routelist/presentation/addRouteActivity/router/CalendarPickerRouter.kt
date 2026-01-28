@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.addRouteActivity.model
+package com.example.routelist.presentation.addRouteActivity.router
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog

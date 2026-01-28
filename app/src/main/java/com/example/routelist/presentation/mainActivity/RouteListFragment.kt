@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.routelist.R
 import com.example.routelist.databinding.FragmentMainBinding
-import com.example.routelist.presentation.addRouteActivity.AddRouteFragment
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
-import com.example.routelist.presentation.mainActivity.model.MonthYearPickerRouter
+import com.example.routelist.presentation.mainActivity.base.BaseFragment
+import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
 
 
 class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
@@ -30,9 +29,8 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
     override fun fragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentMainBinding {
-        return FragmentMainBinding.inflate(inflater, container, false)
-    }
+    ): FragmentMainBinding =
+        FragmentMainBinding.inflate(inflater, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,14 +39,11 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
         monthYearPicker = MonthYearPickerRouter(requireContext())
 
         setupRecyclerView()
+
         observeViewModel()
 
-
         binding.addNewRoute.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.route_list_container, AddRouteFragment())
-                .addToBackStack(null)
-                .commit()
+            viewModel.openAddRoute()
         }
 
     }

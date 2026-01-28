@@ -16,7 +16,6 @@ interface DataModule {
     fun bindRouteRepository(impl: RouteRepositoryImpl): RouteRepository
 
     companion object {
-
         @Provides
         fun provideRouteInfoDao(
             application: Application

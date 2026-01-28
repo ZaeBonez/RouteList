@@ -1,4 +1,4 @@
-package com.example.routelist.presentation.mainActivity.model
+package com.example.routelist.presentation.mainActivity.router
 
 import android.app.AlertDialog
 import android.content.Context
@@ -16,7 +16,6 @@ class MonthYearPickerRouter(
     ) {
 
         val binding = MonthYearPickerBinding.inflate(LayoutInflater.from(context))
-
 
         binding.npMonth.minValue = 1
         binding.npMonth.maxValue = 12

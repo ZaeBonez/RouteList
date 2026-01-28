@@ -1,0 +1,12 @@
+package com.example.routelist.presentation.mainActivity
+
+import com.example.routelist.domain.RouteListInfo
+import com.example.routelist.presentation.mainActivity.model.RouteListItem
+
+interface RouteListFactory {
+    fun buildUiList(
+        routeList: List<RouteListInfo>,
+        headerMonthZeroBased: Int,
+        headerYear: Int
+    ): List<RouteListItem>
+}
