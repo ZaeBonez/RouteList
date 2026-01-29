@@ -27,5 +27,9 @@ class MainRouter @Inject constructor() : BaseRouter() {
                 .commit()
         }
     }
+
+    fun routeBack() = startTransaction {
+        popBackStack()
+    }
 }
 

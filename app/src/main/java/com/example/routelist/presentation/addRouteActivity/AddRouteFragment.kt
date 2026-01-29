@@ -1,6 +1,5 @@
 package com.example.routelist.presentation.addRouteActivity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,25 +9,21 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.routelist.databinding.FragmentAddRouteBinding
+import com.example.routelist.presentation.addRouteActivity.model.AddRouteEffect
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.router.CalendarPickerRouter
 import com.example.routelist.presentation.mainActivity.base.BaseFragment
-import com.example.routelist.presentation.mainActivity.RouteApp
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 
 class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel>() {
-
-    private val component by lazy {
-        (requireActivity().application as RouteApp).component
-    }
-
 
     override fun inject() {
         component.inject(this)
     }
 
-    override val viewModelClass: Class<AddRouteViewModel> = AddRouteViewModel::class.java
+    override val viewModelClass: KClass<AddRouteViewModel> = AddRouteViewModel::class
 
     override fun fragmentBinding(
         inflater: LayoutInflater,
@@ -39,26 +34,27 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel
         false
     )
 
-
-    override fun onAttach(context: Context) {
-        component.inject(this)
-        super.onAttach(context)
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Вынести дублирующийся код
+        lifecycleScope.launch {
+            viewModel.getEffectFlow().flowWithLifecycle(lifecycle).collect {
+                when (it) {
+                    is AddRouteEffect.ShowToast -> Toast.makeText(
+                        requireContext(),
+                        it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    is AddRouteEffect.NavigateBackStack -> viewModel.routerBack()
+                }
+            }
+        }
         lifecycleScope.launch {
             viewModel.getStateFlow().flowWithLifecycle(lifecycle).collect {
                 setupDateRow(it)
                 setupPassengerInfo(it)
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.getErrorFlow().flowWithLifecycle(lifecycle).collect {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -145,14 +141,8 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel
     }
 
     private fun saveButton() {
-
         binding.saveRoute.setOnClickListener {
-
-            if (viewModel.validate()) {
-                viewModel.saveRoute()
-                Toast.makeText(requireContext(), "Маршрут сохранён", Toast.LENGTH_SHORT).show()
-                parentFragmentManager.popBackStack()
-            }
+            viewModel.saveRouteV2()
         }
     }
 }

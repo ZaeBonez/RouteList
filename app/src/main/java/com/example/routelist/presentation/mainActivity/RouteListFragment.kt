@@ -4,24 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.databinding.FragmentMainBinding
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.base.BaseFragment
 import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
+import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
 
 
 class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
-
-    private val component by lazy {
-        (requireActivity().application as RouteApp).component
-    }
 
     override fun inject() {
         component.inject(this)
     }
 
-    override val viewModelClass: Class<RouteViewModel> = RouteViewModel::class.java
+    override val viewModelClass: KClass<RouteViewModel> = RouteViewModel::class
 
     private lateinit var monthYearPicker: MonthYearPickerRouter
     private lateinit var adapter: RouteListAdapter
@@ -78,8 +79,13 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
     }
 
     private fun observeViewModel() {
-        viewModel.items.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
+        // Убрать дубликат
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getStateFlow().collect { state ->
+                    adapter.submitList(state)
+                }
+            }
         }
     }
 }

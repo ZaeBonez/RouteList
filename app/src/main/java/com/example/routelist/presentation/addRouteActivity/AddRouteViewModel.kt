@@ -2,26 +2,25 @@ package com.example.routelist.presentation.addRouteActivity
 
 
 import androidx.lifecycle.viewModelScope
+import com.example.routelist.R
 import com.example.routelist.domain.InsertRouteUseCase
 import com.example.routelist.domain.RouteListInfo
 import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChain
 import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChainModel
+import com.example.routelist.presentation.addRouteActivity.model.AddRouteEffect
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.RouteNumber
 import com.example.routelist.presentation.mainActivity.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import com.example.routelist.presentation.mainActivity.router.MainRouter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class AddRouteViewModel @Inject constructor(
     private val insertRouteUseCase: InsertRouteUseCase,
-    private val addRouteChain: AddRouteChain
-) : BaseViewModel<AddRouteState>(AddRouteState()) {
-
-    private val errorFlow = MutableSharedFlow<Int>()
-
+    private val addRouteChain: AddRouteChain,
+    override val router: MainRouter
+) : BaseViewModel<AddRouteState, AddRouteEffect>(AddRouteState()) {
 
     fun updateRouteNumber(number: String) {
         setState { copy(routeNumber = RouteNumber(number)) }
@@ -111,6 +110,7 @@ class AddRouteViewModel @Inject constructor(
         }
     }
 
+    fun routerBack() = router.routeBack()
 
     fun saveRoute() {
         viewModelScope.launch {
@@ -135,33 +135,27 @@ class AddRouteViewModel @Inject constructor(
         }
     }
 
-    fun getStateFlow(): SharedFlow<AddRouteState> {
-        return state
-    }
-
-    fun getErrorFlow(): SharedFlow<Int> {
-        return errorFlow
-    }
-
-    fun validate(): Boolean {
-        val s = state.value
-
-        val error = addRouteChain.validate(
-            AddRouteChainModel(
-                number = s.routeNumber.number,
-                startDate = s.dateRow.startDate,
-                endDate = s.dateRow.endDate,
-                trainNumber = s.trainInfo.trainNumber,
-                carriageCount = s.trainInfo.carriageCount,
-                startStation = s.trainInfo.startStation,
-                endStation = s.trainInfo.endStation,
+    fun saveRouteV2() {
+        val error = state.value.run {
+            addRouteChain.validate(
+                AddRouteChainModel(
+                    number = routeNumber.number,
+                    startDate = dateRow.startDate,
+                    endDate = dateRow.endDate,
+                    trainNumber = trainInfo.trainNumber,
+                    carriageCount = trainInfo.carriageCount,
+                    startStation = trainInfo.startStation,
+                    endStation = trainInfo.endStation,
+                )
             )
-        )
+        }
 
-        return error?.let {
-            viewModelScope.launch {
-                errorFlow.emit(it)
+        viewModelScope.launch {
+            effects.emit(AddRouteEffect.ShowToast(error ?: R.string.route_saved))
+            if (error == null) {
+                saveRoute()
+                effects.emit(AddRouteEffect.NavigateBackStack)
             }
-        } == null
+        }
     }
 }

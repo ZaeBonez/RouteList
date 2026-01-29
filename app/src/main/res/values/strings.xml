@@ -4,6 +4,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save_route">Save Route</string>
+    <string name="route_saved">"Маршрут сохранён"</string>
     <string name="choose_date_and_time">Выберите дату и время</string>
 
     <string name="route_number">Введите номер маршрута</string>

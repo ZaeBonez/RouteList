@@ -15,7 +15,7 @@ class RouteDetailsViewModel @Inject constructor(
     private val deleteRouteUseCase: DeleteRouteUseCase,
     private val calculator: NightHoursCalculator,
     override val router: MainRouter,
-) : BaseViewModel<RouteDetailsState>(RouteDetailsState()) {
+) : BaseViewModel<RouteDetailsState, Nothing>(RouteDetailsState()) {
 
     fun init(args: RouteArgs) {
 
@@ -31,7 +31,7 @@ class RouteDetailsViewModel @Inject constructor(
         }
     }
 
-
+    fun routeBack() = router.routeBack()
     fun deleteRoute(id: Int) {
         viewModelScope.launch {
             deleteRouteUseCase.deleteRouteById(id)
