@@ -6,7 +6,7 @@ import com.example.routelist.presentation.mainActivity.model.RouteListItem
 interface RouteListFactory {
     fun buildUiList(
         routeList: List<RouteListInfo>,
-        headerMonthZeroBased: Int,
+        headerMonth: Int,
         headerYear: Int
     ): List<RouteListItem>
 }

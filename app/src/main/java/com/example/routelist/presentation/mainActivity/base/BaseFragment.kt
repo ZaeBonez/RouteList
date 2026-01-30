@@ -21,10 +21,8 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel<*, *>> : Fragment
 
     protected abstract fun inject()
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
 
     protected abstract val viewModelClass: KClass<T>
     protected val viewModel: T by lazy { ViewModelProvider(this, viewModelFactory)[viewModelClass] }

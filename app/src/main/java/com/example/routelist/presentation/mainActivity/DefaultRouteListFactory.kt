@@ -11,7 +11,7 @@ class DefaultRouteListFactory @Inject constructor (
 ) : RouteListFactory {
     override fun buildUiList(
         routeList: List<RouteListInfo>,
-        headerMonthZeroBased: Int,
+        headerMonth: Int,
         headerYear: Int
     ): List<RouteListItem> {
 
@@ -21,7 +21,7 @@ class DefaultRouteListFactory @Inject constructor (
 
         val ui = mutableListOf<RouteListItem>()
 
-        ui.add(RouteListItem.CalendarHeader(headerMonthZeroBased, headerYear))
+        ui.add(RouteListItem.CalendarHeader(headerMonth, headerYear))
 
         ui.add(RouteListItem.Card("Норма часов", "160"))
         ui.add(RouteListItem.Card("Норма на сегодня", "60"))
