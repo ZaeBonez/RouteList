@@ -83,7 +83,7 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getStateFlow().collect { state ->
-                    adapter.submitList(state)
+                    adapter.submitList(state.items)
                 }
             }
         }
