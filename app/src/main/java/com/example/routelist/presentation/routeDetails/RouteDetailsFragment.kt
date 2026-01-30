@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.routelist.databinding.FragmentRouteDetailsBinding
 import com.example.routelist.presentation.mainActivity.base.BaseFragment
-import com.example.routelist.presentation.mainActivity.RouteApp
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.routeDetails.model.RouteArgs
 import com.example.routelist.presentation.routeDetails.model.RouteDetailsState
@@ -17,16 +16,11 @@ import kotlinx.coroutines.launch
 
 class RouteDetailsFragment : BaseFragment<FragmentRouteDetailsBinding, RouteDetailsViewModel>() {
 
-
-    private val component by lazy {
-        (requireActivity().application as RouteApp).component
-    }
-
     override fun inject() {
         component.inject(this)
     }
 
-    override val viewModelClass: Class<RouteDetailsViewModel> = RouteDetailsViewModel::class.java
+    override val viewModelClass = RouteDetailsViewModel::class
 
 
     override fun fragmentBinding(
@@ -41,9 +35,10 @@ class RouteDetailsFragment : BaseFragment<FragmentRouteDetailsBinding, RouteDeta
 
         val args = readArgs()
 
+        // Дубликат
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getState().collect { state ->
+                viewModel.getStateFlow().collect { state ->
                     render(state)
                 }
             }
@@ -67,6 +62,7 @@ class RouteDetailsFragment : BaseFragment<FragmentRouteDetailsBinding, RouteDeta
         tvNightAmount.text = state.amountsDetails.nightAmount
         tvTotalAmount.text = state.amountsDetails.totalAmount
         tvHourlyAmount.text = state.amountsDetails.hourlyAmount
+
         tvPassengerAmount.text = state.amountsDetails.passengerAmount
         tvSummaryAmount.text = state.amountsDetails.summaryAmount
     }
@@ -82,13 +78,13 @@ class RouteDetailsFragment : BaseFragment<FragmentRouteDetailsBinding, RouteDeta
 
     private fun setupClicks(routeId: Int) {
 
-        binding.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
+        binding.btnBack.setOnClickListener { viewModel.routeBack() }
 
-        binding.btnClose.setOnClickListener { parentFragmentManager.popBackStack() }
+        binding.btnClose.setOnClickListener { viewModel.routeBack() }
 
         binding.btnDelete.setOnClickListener {
             viewModel.deleteRoute(routeId)
-            parentFragmentManager.popBackStack()
+
         }
 
         binding.btnEdit.setOnClickListener {

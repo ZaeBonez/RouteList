@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val DEFAULT_DATE = 0
+
 @Singleton
 class NightHoursCalculator @Inject constructor() {
 
@@ -14,13 +16,13 @@ class NightHoursCalculator @Inject constructor() {
     fun calculateNightMinutes(start: String, end: String): Int {
         val startDt = try {
             LocalDateTime.parse(start, formatter)
-        } catch (e: Exception) {
-            return 0
+        } catch (_: Exception) {
+            return DEFAULT_DATE
         }
         val endDt = try {
             LocalDateTime.parse(end, formatter)
-        } catch (e: Exception) {
-            return 0
+        } catch (_: Exception) {
+            return DEFAULT_DATE
         }
 
         var nightMinutes = 0

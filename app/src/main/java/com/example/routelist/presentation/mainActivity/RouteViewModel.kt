@@ -1,13 +1,12 @@
 package com.example.routelist.presentation.mainActivity
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.GetRoutesByMonthYearUseCase
 import com.example.routelist.domain.RouteListInfo
 import com.example.routelist.presentation.mainActivity.base.BaseViewModel
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
 import com.example.routelist.presentation.mainActivity.router.MainRouter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
@@ -18,10 +17,7 @@ class RouteViewModel @Inject constructor(
     private val getRoutesByMonthYearUseCase: GetRoutesByMonthYearUseCase,
     override val router: MainRouter,
     private val routeListFactory: RouteListFactory
-) : BaseViewModel<List<RouteListItem>>(emptyList()) {
-
-    private val _items = MutableLiveData<List<RouteListItem>>()
-    val items: LiveData<List<RouteListItem>> get() = _items
+) : BaseViewModel<List<RouteListItem>, Nothing>(emptyList()) {
 
     private val selectedPeriod = MutableStateFlow(getCurrentPeriod())
     private val selectedHeader = MutableStateFlow(getCurrentHeader())
@@ -30,13 +26,14 @@ class RouteViewModel @Inject constructor(
         loadRoutes()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadRoutes() {
         viewModelScope.launch {
             selectedPeriod.flatMapLatest { (year, month) ->
                 getRoutesByMonthYearUseCase(year, month)
             }.collect { routeList ->
                 val (month0, yearInt) = selectedHeader.value
-                _items.postValue(buildUiList(routeList, month0, yearInt))
+                setState { buildUiList(routeList, month0, yearInt) }
             }
         }
     }
@@ -70,6 +67,10 @@ class RouteViewModel @Inject constructor(
 
     fun openAddRoute() {
         router.openAddRoute()
+    }
+
+    fun back() {
+        router.routeBack()
     }
 
     private fun buildUiList(
