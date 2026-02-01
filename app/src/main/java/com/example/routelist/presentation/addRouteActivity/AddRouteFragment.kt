@@ -17,7 +17,8 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 
-class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel>() {
+class AddRouteFragment() :
+    BaseFragment<FragmentAddRouteBinding, AddRouteViewModel, AddRouteState, AddRouteEffect>() {
 
     override fun inject() {
         component.inject(this)
@@ -37,33 +38,30 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Вынести дублирующийся код
-        lifecycleScope.launch {
-            viewModel.getEffectFlow().flowWithLifecycle(lifecycle).collect {
-                when (it) {
-                    is AddRouteEffect.ShowToast -> Toast.makeText(
-                        requireContext(),
-                        it.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    is AddRouteEffect.NavigateBackStack -> viewModel.routerBack()
-                }
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.getStateFlow().flowWithLifecycle(lifecycle).collect {
-                setupDateRow(it)
-                setupPassengerInfo(it)
-            }
-        }
-
         addTextChangeListeners()
         setupDatePickerListeners()
-        saveButton()
 
+        saveButton()
     }
 
+    override fun observeState(state: AddRouteState) {
+        setupDateRow(state)
+        setupPassengerInfo(state)
+    }
+
+
+
+    override fun observeEffect(effect: AddRouteEffect) {
+        when (effect) {
+            is AddRouteEffect.ShowToast -> Toast.makeText(
+                requireContext(),
+                effect.message,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            is AddRouteEffect.NavigateBackStack -> viewModel.routeBack()
+        }
+    }
 
     fun addTextChangeListeners() {
 
@@ -139,6 +137,7 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding, AddRouteViewModel
         }
 
     }
+
 
     private fun saveButton() {
         binding.saveRoute.setOnClickListener {

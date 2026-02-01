@@ -14,8 +14,6 @@ abstract class BaseViewModel<STATE : Any, EFFECT : Any>(initState: STATE) : View
 
     protected val effects = MutableSharedFlow<EFFECT>()
 
-
-
     fun getStateFlow(): StateFlow<STATE> = state
 
     fun getEffectFlow(): MutableSharedFlow<EFFECT> = effects
@@ -27,8 +25,6 @@ abstract class BaseViewModel<STATE : Any, EFFECT : Any>(initState: STATE) : View
     fun detach() {
         router?.detach()
     }
-
-
 
     protected fun setState(setNewState: STATE.() -> STATE) {
         state.value = state.value.setNewState()

@@ -110,7 +110,7 @@ class AddRouteViewModel @Inject constructor(
         }
     }
 
-    fun routerBack() = router.routeBack()
+    fun routeBack() = router.routeBack()
 
     fun saveRoute() {
         viewModelScope.launch {
