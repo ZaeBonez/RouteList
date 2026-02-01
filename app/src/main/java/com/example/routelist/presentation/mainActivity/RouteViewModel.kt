@@ -18,16 +18,13 @@ class RouteViewModel @Inject constructor(
     override val router: MainRouter,
     private val routeListFactory: RouteListFactory,
     private val dateProvider: DateProvider
-) : BaseViewModel<RouteListState, Nothing>(
+) : BaseViewModel<RouteListState, Any>(
     RouteListState(
         selectedPeriod = dateProvider.getCurrentPeriod(),
         selectedHeader = dateProvider.getCurrentHeader(),
         items = emptyList()
     )
 ) {
-
-
-
     init {
         loadRoutes()
     }
@@ -35,7 +32,7 @@ class RouteViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadRoutes() {
         viewModelScope.launch {
-            state
+            getStateFlow()
                 .map { it.selectedPeriod }
                 .distinctUntilChanged()
                 .flatMapLatest { (year, month) ->
@@ -70,11 +67,6 @@ class RouteViewModel @Inject constructor(
     fun openAddRoute() {
         router.openAddRoute()
     }
-
-    fun back() {
-        router.routeBack()
-    }
-
 
     private fun buildUiList(
         routeList: List<RouteListInfo>, headerMonth: Int, headerYear: Int
