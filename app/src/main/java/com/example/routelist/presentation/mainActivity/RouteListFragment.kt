@@ -6,20 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.routelist.databinding.FragmentMainBinding
-import com.example.routelist.presentation.addRouteActivity.model.AddRouteEffect
-import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.mainActivity.adapters.RouteListAdapter
 import com.example.routelist.presentation.mainActivity.base.BaseFragment
 import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
 import kotlin.reflect.KClass
-
 
 class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel, RouteListState, Any>() {
 
     override fun inject() {
         component.inject(this)
     }
-
 
 
     override val viewModelClass: KClass<RouteViewModel> = RouteViewModel::class
@@ -67,12 +63,7 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel, Rout
             ?.supportsChangeAnimations = false
 
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return when (adapter.getItemViewType(position)) {
-                    RouteListAdapter.CARD_INFO -> 1 // вынести в енам класс и .ordinal
-                    else -> 2
-                }
-            }
+            override fun getSpanSize(position: Int) = adapter.getSpanSize(position)
         }
     }
 
@@ -80,8 +71,9 @@ class RouteListFragment : BaseFragment<FragmentMainBinding, RouteViewModel, Rout
         adapter.submitList(state.items)
     }
 
+
     override fun observeEffect(effect: Any) {
-       TODO()
+        TODO()
     }
 
 

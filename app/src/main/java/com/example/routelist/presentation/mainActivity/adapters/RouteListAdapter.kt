@@ -11,8 +11,11 @@ import com.example.routelist.databinding.ItemRouteTableHeaderBinding
 import com.example.routelist.databinding.ItemRoutesHeaderBinding
 import com.example.routelist.databinding.ItemStatisticCardBinding
 import com.example.routelist.presentation.mainActivity.adapters.diff.RouteInfoDiffCallback
-import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
 import com.example.routelist.presentation.mainActivity.model.RouteListItem
+import com.example.routelist.presentation.mainActivity.model.SpanType
+import com.example.routelist.presentation.mainActivity.router.MonthYearPickerRouter
+
+private const val DEFAULT_SPAN_SIZE = 2
 
 class RouteListAdapter(
     private val router: MonthYearPickerRouter,
@@ -20,20 +23,16 @@ class RouteListAdapter(
     private val onRouteClick: (RouteListItem.RouteItem) -> Unit
 ) : ListAdapter<RouteListItem, RecyclerView.ViewHolder>(RouteInfoDiffCallback()) {
 
-    companion object {
-        internal const val CALENDAR_HEADER = 0
-        internal const val CARD_INFO = 1
-        internal const val ROUTES_HEADER = 2
-        internal const val ROUTES_TABLE_HEADER = 4
-        internal const val ROUTE_LIST = 3
+    fun getSpanSize(position: Int): Int {
+        return (getItem(position) as? SpanType)?.spanSize ?: DEFAULT_SPAN_SIZE
     }
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
-        is RouteListItem.CalendarHeader -> CALENDAR_HEADER
-        RouteListItem.RoutesHeader -> ROUTES_HEADER
-        is RouteListItem.Card -> CARD_INFO
-        is RouteListItem.RouteItem -> ROUTE_LIST
-        RouteListItem.RoutesTableHeaders -> ROUTES_TABLE_HEADER
+        is RouteListItem.CalendarHeader -> RouteListViewType.CALENDAR_HEADER.ordinal
+        is RouteListItem.Card -> RouteListViewType.CARD_INFO.ordinal
+        RouteListItem.RoutesHeader -> RouteListViewType.ROUTES_HEADER.ordinal
+        is RouteListItem.RouteItem -> RouteListViewType.ROUTE_ITEM.ordinal
+        RouteListItem.RoutesTableHeaders -> RouteListViewType.ROUTES_TABLE_HEADER.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -43,26 +42,26 @@ class RouteListAdapter(
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            CALENDAR_HEADER -> CalendarViewHolder(
+            RouteListViewType.CALENDAR_HEADER.ordinal -> CalendarViewHolder(
                 ItemHeaderBinding.inflate(inflater, parent, false),
                 router,
                 onMonthYearPicked
             )
 
-            CARD_INFO -> CardViewHolder(
+            RouteListViewType.CARD_INFO.ordinal -> CardViewHolder(
                 ItemStatisticCardBinding.inflate(inflater, parent, false)
             )
 
-            ROUTES_HEADER -> RoutesHeaderViewHolder(
+            RouteListViewType.ROUTES_HEADER.ordinal -> RoutesHeaderViewHolder(
                 ItemRoutesHeaderBinding.inflate(inflater, parent, false)
             )
 
-            ROUTE_LIST -> RouteViewHolder(
+            RouteListViewType.ROUTE_ITEM.ordinal -> RouteViewHolder(
                 ItemRouteBinding.inflate(inflater, parent, false),
                 onRouteClick
             )
 
-            ROUTES_TABLE_HEADER -> RoutesTableHeaderViewHolder(
+            RouteListViewType.ROUTES_TABLE_HEADER.ordinal -> RoutesTableHeaderViewHolder(
                 ItemRouteTableHeaderBinding.inflate(inflater, parent, false)
             )
 
@@ -90,8 +89,8 @@ class RouteListAdapter(
     fun getCardSpanSize(cardCount: Int) = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             return when (getItemViewType(position)) {
-                CALENDAR_HEADER, ROUTES_HEADER, ROUTE_LIST -> cardCount
-                CARD_INFO -> 1
+                RouteListViewType.CALENDAR_HEADER.ordinal, RouteListViewType.ROUTES_HEADER.ordinal, RouteListViewType.ROUTE_ITEM.ordinal -> cardCount
+                RouteListViewType.CARD_INFO.ordinal -> 1
                 else -> cardCount
             }
         }

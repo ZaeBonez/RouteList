@@ -1,21 +1,21 @@
 package com.example.routelist.presentation.mainActivity.model
 
-sealed class RouteListItem {
+sealed interface RouteListItem {
 
     data class CalendarHeader(
         val month: Int,
         val year: Int
-    ) : RouteListItem()
+    ) : RouteListItem
 
 
-    data object RoutesHeader : RouteListItem()
+    data object RoutesHeader : RouteListItem
 
-    data object RoutesTableHeaders : RouteListItem()
+    data object RoutesTableHeaders : RouteListItem
 
     data class Card(
         val title: String,
         val value: String
-    ) : RouteListItem()
+    ) : RouteListItem, SpanType.Two()
 
     data class RouteItem(
         val id : Int,
@@ -24,6 +24,6 @@ sealed class RouteListItem {
         val end: String,
         val hours: String,
         val routePosition: RoutePosition,
-    ) : RouteListItem()
+    ) : RouteListItem
 
 }
