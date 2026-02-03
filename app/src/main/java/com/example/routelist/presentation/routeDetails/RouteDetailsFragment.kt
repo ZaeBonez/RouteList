@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.routelist.databinding.FragmentRouteDetailsBinding
+import com.example.routelist.presentation.addRouteActivity.AddRouteViewModel
 import com.example.routelist.presentation.base.BaseFragment
 import com.example.routelist.presentation.mainRouteList.model.RouteListItem
 import com.example.routelist.presentation.routeDetails.model.RouteArgs
 import com.example.routelist.presentation.routeDetails.model.RouteDetailsState
+import kotlin.reflect.KClass
 
 class RouteDetailsFragment() :
     BaseFragment<FragmentRouteDetailsBinding, RouteDetailsViewModel, RouteDetailsState, Any>() {
@@ -18,7 +20,7 @@ class RouteDetailsFragment() :
     }
 
 
-    override val viewModelClass = RouteDetailsViewModel::class
+    override val viewModelClass: KClass<RouteDetailsViewModel> = RouteDetailsViewModel::class
 
 
     override fun fragmentBinding(

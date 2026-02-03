@@ -46,8 +46,6 @@ class AddRouteFragment() :
         setupPassengerInfo(state)
     }
 
-
-
     override fun observeEffect(effect: AddRouteEffect) {
         when (effect) {
             is AddRouteEffect.ShowToast -> Toast.makeText(
@@ -58,6 +56,7 @@ class AddRouteFragment() :
 
             is AddRouteEffect.NavigateBackStack -> viewModel.routeBack()
         }
+
     }
 
     fun addTextChangeListeners() {
@@ -89,11 +88,6 @@ class AddRouteFragment() :
         binding.etStops.doOnTextChanged { text, _, _, _ ->
             viewModel.updateCountStop(stopsCount = text.toString())
         }
-
-        binding.etPassengerTrainNumber.doOnTextChanged { text, _, _, _ ->
-            viewModel.updatePassengerNumber(number = text.toString())
-        }
-
     }
 
     fun setupDateRow(item: AddRouteState) {
@@ -132,9 +126,7 @@ class AddRouteFragment() :
                 viewModel.updatePassengerEndDateRow(end = datePassenger)
             }
         }
-
     }
-
 
     private fun saveButton() {
         binding.saveRoute.setOnClickListener {

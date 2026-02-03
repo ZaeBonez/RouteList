@@ -78,8 +78,6 @@ class CompareDateChain(override val newChain: AddRouteChain?) : AddRouteChain.Ba
     }
 
     override fun getErrorText(): Int = R.string.inccorect_date
-
-
 }
 
 class StartDateChain(override val newChain: AddRouteChain?) : DateChain() {

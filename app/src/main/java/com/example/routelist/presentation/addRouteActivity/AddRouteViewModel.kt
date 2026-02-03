@@ -87,26 +87,22 @@ class AddRouteViewModel @Inject constructor(
 
     fun updatePassengerNumber(number: String) {
         val current = state.value
-        state.value = current.copy(
-            passengerInfo = current.passengerInfo.copy(passengerTrainNumber = number)
-        )
+        setState {
+            copy(passengerInfo = current.passengerInfo.copy(passengerTrainNumber = number))
+        }
     }
 
     fun updatePassengerStartDateRow(start: String) {
         val current = state.value
         setState {
-            copy(
-                passengerInfo = current.passengerInfo.copy(passengerStartDate = start)
-            )
+            copy(passengerInfo = current.passengerInfo.copy(passengerStartDate = start))
         }
     }
 
     fun updatePassengerEndDateRow(end: String) {
         val current = state.value
         setState {
-            copy(
-                passengerInfo = current.passengerInfo.copy(passengerEndDate = end)
-            )
+            copy(passengerInfo = current.passengerInfo.copy(passengerEndDate = end))
         }
     }
 
