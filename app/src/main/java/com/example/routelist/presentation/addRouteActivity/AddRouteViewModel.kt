@@ -10,8 +10,8 @@ import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChainMo
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteEffect
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.model.RouteNumber
-import com.example.routelist.presentation.mainActivity.base.BaseViewModel
-import com.example.routelist.presentation.mainActivity.router.MainRouter
+import com.example.routelist.presentation.base.BaseViewModel
+import com.example.routelist.presentation.mainRouteList.router.MainRouter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.example.routelist.di
 
 import androidx.lifecycle.ViewModel
 import com.example.routelist.presentation.addRouteActivity.AddRouteViewModel
-import com.example.routelist.presentation.mainActivity.RouteViewModel
+import com.example.routelist.presentation.mainRouteList.RouteViewModel
 import com.example.routelist.presentation.routeDetails.RouteDetailsViewModel
 import dagger.Binds
 import dagger.Module

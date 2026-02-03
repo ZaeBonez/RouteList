@@ -2,8 +2,8 @@ package com.example.routelist.presentation.routeDetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.routelist.domain.DeleteRouteUseCase
-import com.example.routelist.presentation.mainActivity.base.BaseViewModel
-import com.example.routelist.presentation.mainActivity.router.MainRouter
+import com.example.routelist.presentation.base.BaseViewModel
+import com.example.routelist.presentation.mainRouteList.router.MainRouter
 import com.example.routelist.presentation.routeDetails.model.AmountDetails
 import com.example.routelist.presentation.routeDetails.model.RouteArgs
 import com.example.routelist.presentation.routeDetails.model.RouteDetailsState

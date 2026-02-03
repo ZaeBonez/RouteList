@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import com.example.routelist.databinding.FragmentAddRouteBinding
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteEffect
 import com.example.routelist.presentation.addRouteActivity.model.AddRouteState
 import com.example.routelist.presentation.addRouteActivity.router.CalendarPickerRouter
-import com.example.routelist.presentation.mainActivity.base.BaseFragment
-import kotlinx.coroutines.launch
+import com.example.routelist.presentation.base.BaseFragment
 import kotlin.reflect.KClass
 
 

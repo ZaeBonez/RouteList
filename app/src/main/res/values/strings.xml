@@ -6,7 +6,7 @@
     <string name="save_route">Save Route</string>
     <string name="route_saved">"Маршрут сохранён"</string>
     <string name="choose_date_and_time">Выберите дату и время</string>
-
+    <string name="inccorect_date">Дата окончания не может быть раньше даты начала</string>
     <string name="route_number">Введите номер маршрута</string>
     <string name="train_number">Введите номер поезда</string>
     <string name="carriage_count">Введите количество вагонов</string>

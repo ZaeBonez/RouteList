@@ -2,6 +2,7 @@ package com.example.routelist.di
 
 import com.example.routelist.presentation.addRouteActivity.chain.AddRouteChain
 import com.example.routelist.presentation.addRouteActivity.chain.CarriageCountChain
+import com.example.routelist.presentation.addRouteActivity.chain.CompareDateChain
 import com.example.routelist.presentation.addRouteActivity.chain.EndDateChain
 import com.example.routelist.presentation.addRouteActivity.chain.EndStationChain
 import com.example.routelist.presentation.addRouteActivity.chain.NumberChain
@@ -12,17 +13,19 @@ import dagger.Module
 import dagger.Provides
 
 @Module
- class ChainModule {
+class ChainModule {
 
     @Provides
     fun provideGetChain(): AddRouteChain {
         return NumberChain(
             StartDateChain(
                 EndDateChain(
-                    TrainNumberChain(
-                        CarriageCountChain(
-                            StartStationChain(
-                                EndStationChain()
+                    CompareDateChain(
+                        TrainNumberChain(
+                            CarriageCountChain(
+                                StartStationChain(
+                                    EndStationChain()
+                                )
                             )
                         )
                     )
