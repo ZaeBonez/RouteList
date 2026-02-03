@@ -20,7 +20,7 @@ class TrainNumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Ba
         return model.trainNumber.isNullOrBlank()
     }
 
-    override fun getErrorText():  Int = R.string.train_number
+    override fun getErrorText(): Int = R.string.train_number
 }
 
 class CarriageCountChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
@@ -38,13 +38,13 @@ class StartStationChain(override val newChain: AddRouteChain?) : AddRouteChain.B
         return model.startStation.isNullOrBlank()
     }
 
-    override fun getErrorText():  Int = R.string.start_station
+    override fun getErrorText(): Int = R.string.start_station
 }
 
 class EndStationChain : AddRouteChain.Base() {
 
     override fun isInvalid(model: AddRouteChainModel): Boolean {
-        return model.endStation.isNullOrBlank()
+        return model.endDate.isNullOrBlank()
     }
 
     override fun getErrorText(): Int = R.string.end_station
@@ -66,6 +66,20 @@ abstract class DateChain : AddRouteChain.Base() {
     } catch (_: Exception) {
         null
     }
+
+}
+
+class CompareDateChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
+
+    override fun isInvalid(model: AddRouteChainModel): Boolean {
+        val start = model.startDate ?: return false
+        val end = model.endDate ?: return false
+        return end < start
+    }
+
+    override fun getErrorText(): Int = R.string.inccorect_date
+
+
 }
 
 class StartDateChain(override val newChain: AddRouteChain?) : DateChain() {

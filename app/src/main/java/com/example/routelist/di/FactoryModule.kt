@@ -1,7 +1,7 @@
 package com.example.routelist.di
 
-import com.example.routelist.presentation.mainActivity.DefaultRouteListFactory
-import com.example.routelist.presentation.mainActivity.RouteListFactory
+import com.example.routelist.presentation.mainRouteList.DefaultRouteListFactory
+import com.example.routelist.presentation.mainRouteList.RouteListFactory
 import dagger.Binds
 import dagger.Module
 
