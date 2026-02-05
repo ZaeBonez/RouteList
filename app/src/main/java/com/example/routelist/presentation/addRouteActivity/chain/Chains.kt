@@ -11,7 +11,7 @@ class NumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() 
         return model.number.isNullOrBlank()
     }
 
-    override fun getErrorText(): Int = R.string.route_number
+    override fun getErrorText(): Int = R.string.enter_route_number
 }
 
 class TrainNumberChain(override val newChain: AddRouteChain?) : AddRouteChain.Base() {
@@ -59,7 +59,7 @@ abstract class DateChain : AddRouteChain.Base() {
         return date.isNullOrBlank() || parseDate(date) == null
     }
 
-    override fun getErrorText(): Int = R.string.route_number
+    override fun getErrorText(): Int = R.string.enter_route_number
 
     private fun parseDate(s: String) = try {
         LocalDateTime.parse(s, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))

@@ -5,7 +5,7 @@
     android:clickable="true"
     android:focusable="true"
     android:padding="8dp"
-    android:text="Сентябрь 2025"
+    android:text=""
     android:textSize="20sp"
     android:textStyle="bold"
     />

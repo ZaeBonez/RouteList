@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Поезд"
+            android:text="@string/train"
             android:textStyle="bold" />
 
 
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Явка" />
+            android:text="@string/appearance" />
 
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Окончание" />
+            android:text="@string/finish" />
 
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Часы" />
+            android:text="@string/hours" />
 
     </LinearLayout>
 

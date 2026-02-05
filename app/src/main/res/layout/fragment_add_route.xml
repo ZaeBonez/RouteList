@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="12dp"
-                        android:text="Выбор номера маршрута"
+                        android:text="@string/enter_route_number"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -48,7 +48,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Номер маршрута">
+                        android:hint="@string/route_number">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etRouteNumber"
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="12dp"
-                        android:text="Выбор времени маршрута"
+                        android:text="@string/select_route_time"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -93,7 +93,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Выберите дату начала">
+                        android:hint="@string/select_start_date">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tvStartDate"
@@ -109,7 +109,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Выберите дату конца">
+                        android:hint="@string/select_end_date">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tvEndDate"
@@ -147,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="12dp"
-                        android:text="Данные поезда"
+                        android:text="@string/train_details"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -157,7 +157,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Номер поезда">
+                        android:hint="@string/train_number">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTrainNumber"
@@ -172,7 +172,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Количество составов">
+                        android:hint="@string/carriage_count">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etComposition"
@@ -187,7 +187,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Станция отправления">
+                        android:hint="@string/start_station">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etStationFrom"
@@ -202,7 +202,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Станция прибытия">
+                        android:hint="@string/end_station">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etStationTo"
@@ -217,7 +217,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Километраж (км)">
+                        android:hint="@string/mileage">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDistance"
@@ -232,7 +232,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Количество остановок">
+                        android:hint="@string/carriage_count">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etStops"
@@ -267,7 +267,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="12dp"
-                        android:text="Следование пассажиром"
+                        android:text="@string/following_as_passenger"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -277,7 +277,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Номер поезда">
+                        android:hint="@string/train_number">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassengerTrainNumber"
@@ -292,7 +292,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Выберите дату начала">
+                        android:hint="@string/select_start_date">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDepartureDate"
@@ -308,7 +308,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Выберите дату окончания">
+                        android:hint="@string/select_end_date">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etArrivalDate"

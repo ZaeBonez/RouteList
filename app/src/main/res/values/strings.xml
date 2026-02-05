@@ -7,7 +7,7 @@
     <string name="route_saved">"Маршрут сохранён"</string>
     <string name="choose_date_and_time">Выберите дату и время</string>
     <string name="inccorect_date">Дата окончания не может быть раньше даты начала</string>
-    <string name="route_number">Введите номер маршрута</string>
+    <string name="enter_route_number">Введите номер маршрута</string>
     <string name="train_number">Введите номер поезда</string>
     <string name="carriage_count">Введите количество вагонов</string>
     <string name="start_station">Введите станцию отправления</string>
@@ -15,4 +15,28 @@
     <string name="start_date">Введите дату начала</string>
     <string name="end_date">Введите дату окончания</string>
     <string name="back">Назад</string>
+    <string name="appearance">Явка</string>
+    <string name="hours_base">Норма часов</string>
+    <string name="finish">Окончание</string>
+    <string name="hours">Часы</string>
+    <string name="train">Поезд</string>
+    <string name="worked_out">Отработано</string>
+    <string name="night_hours">Ночных</string>
+    <string name="total">Итого</string>
+    <string name="close">Закрыть</string>
+    <string name="delete">Удалить</string>
+    <string name="change">Изменить</string>
+    <string name="route_number">Номер маршрута</string>
+    <string name="start">Начало</string>
+    <string name="route_details">Детали маршрута</string>
+    <string name="accrual">Начисления</string>
+    <string name="details_passenger">Пассажиром</string>
+    <string name="night_time">Ночное время</string>
+    <string name="day_time">Дневное время</string>
+    <string name="train_details">Данные поезда</string>
+    <string name="mileage">Километраж (км)</string>
+    <string name="following_as_passenger">Следование пассажиром</string>
+    <string name="select_start_date">Выберите дату начала</string>
+    <string name="select_end_date">Выберите дату окончания</string>
+    <string name="select_route_time">Выбор времени маршрута</string>
 </resources>
